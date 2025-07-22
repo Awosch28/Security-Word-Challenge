@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta content="charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static'), filename='favicon/favicon.ico') }}">
+
+    <title>Cyber Wordle</title>
+    <meta name="description" content="Wordle, the daily word puzzle. Now with cybersecurity terms!">
+    <meta property="description" content="Wordle, the daily word puzzle. Now with cybersecurity terms!">\
+
+    <!-- Vue -->
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+    <!-- tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+
+</head>
+
+<body id="body" class="h-full">
+    <div id="app" class="pb-12">
+
+        <!-- The Header -->
+        <header
+            class="relative flex flex-row justify-between items-center p-1 px-3 lg:px-1 h-[50px] my-auto border-b border-neutral-300 max-w-screen-sm mx-auto">
+            <button class="z-30 text-neutral-500" v-on:click="showAboutModal = !showAboutModal" aria-label="about">
+                <svg xmlns="https://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24"
+                    height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    <polyline points="11 12 12 12 12 16 13 16"></polyline>
+                </svg>
+            </button>
+        </header>
+
+        <!-- NOTIFICATIONS & MODALS -->
+        <div class="container mx-auto flex w-full max-w-lg justify-center items-center overflow-auto z-1" v-cloak>
+            <div v-show="showAboutModal"
+                class="opacity-25 fixed top-0 left-0 w-full h-full z-1 bg-black" v-cloack>
+            
+                <!-- About modal-->
+                <div v-show="showAboutModal" class="fixed top-10 left-0 w-full h-full z-50 items-center overflow-auto"
+                    v-cloak>
+                    <div class="flex flex-col gap-2 relative ">
+                        <h3 class="flex mx-auto uppercase font-bold text-2x1 tracking-wider mb-2">About</h3>
+                        <p class="text-center text-sm">Hi! You probably know about Wordle already. it's a <span class="italic">really</span> fun game.</p>
+                        <p class="text-center text-sm">My day job doesn't involve much programming, but I still get a kick of getting my hands to the keyboard. 
+                            I'm a pretty junior programmer, so I expect to learn a lot while turning Wordle into a
+                            cybersecurity awareness training exercise.</p>
+                        <p class="text-center text-sm">The code for the base wordle game comes from <a href="https://github.com/Hugo0/wordle" class="text-neutral-500 underline">Hugo0's Wordle project on GitHub</a>.</p>
+                        <button
+                            class="uppercase font-bold text-sm tracking-wider mt-2 border-t-2 border-gray-300 mt-2 pt-2"
+                            v-on:click="showAboutModal = !showAboutModal">close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Modal -->
+
+        <div v-show="showStatsModal" class="fixed top-10 left-0 w-full h-full z-50 items-center" v-cloak>
+            <div class="bg-white rounded-lg shadows-lg p-5 m-4 border-slate-200 mx-auto w-full max-w-md sm:max-w-lg"
+                v-cloak>
+                <div class="flex flex-col gap-2 relative">
+                    <h3 class="flex mx-auto uppercase font-bold text-2xl tracking-wider mb-2">Stats</h3>
+                    <div class="flex flex-row">
+                        <div class="flex-grow">Total Games:</div>
+                        <div class="font-bold">[[total_stats.total_games]]</div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="flex-grow">Games Won:</div>
+                        <div class="font-bold">[[total_stats.n_victories]]</div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="flex-grow">Games Lost:</div>
+                        <div class="font-bold">[[total_stats.n_losses]]</div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="flex-grow">Overall Win Percentage:</div>
+                        <div class="font-bold" v-html="total_stats.total_win_percentage.toLocaleString('en') + '%'"></div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="flex-grow">Best Overall Streak:</div>
+                        <div class="font-bold">[[total_stats.longest_overall_streak]]</div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="flex-grow">Current Overall Streak:</div>
+                        <div class="font-bold"><span class="mr-1"
+                                v-if="total_stats.current_overall_streak > 0">🔥</span>[[total_stats.current_overall_streak]]
+                        </div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="flex-grow">Best single language Streak:</div>
+                        <div class="font-bold">[[total_stats.longest_language_streak]]</div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="flex flex-col flex-grow">
+                            <div class="">Best current Streak:</div>
+                            <div v-if="total_stats.current_longest_language_streak_language !=''"
+                                class="text-transparent text-sm bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500 font-bold">
+                                [[languages[total_stats.current_longest_language_streak_language].language_name_native]]</div>
+                        </div>
+                        <div class="font-bold"><span v-if="total_stats.current_longest_language_streak > 0">🔥
+                            </span>[[total_stats.current_longest_language_streak]]</div>
+                    </div>
+                    <div class="flex flex-row mt-4">
+                        <div class="flex-grow uppercase tracking-wider font-bold">Languages Conquered:</div>
+                    </div>
+                    <div v-if="total_stats.languages_won.length == 0" class="text-sm">you haven't beaten any languages yet...</div>
+                        <div class="grid grid-cols-2 w-full place-items-center">
+                        <div v-for="(language) in total_stats.languages_won"
+                            class="text-center py-2 px-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500 font-bold">
+                            [[languages[language].language_name_native]]</div>
+                    </div>
+
+                    <button
+                        class="uppercase font-bold text-sm tracking-wider mt-4 border-t-2 border-gray-300 mt-2 pt-2"
+                        v-on:click="showStatsModal = !showStatsModal">close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- shadow -->
+         <div v-if="showPopup" class="opacity-25 fixed top-0 left-0 w-full h-full z-1 bg-black"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+
+</body>
+</html>
