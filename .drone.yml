@@ -1,0 +1,32 @@
+---
+#####################
+# Deploy to Staging #
+#####################
+
+kind: pipeline
+type: docker
+name: deploy-staging
+
+trigger:
+  event:
+  - push
+
+steps:
+# Plugin for Build Notification to Discord
+- name: discord notification  
+  image: appleboy/drone-discord
+  settings:
+    webhook_id: 
+      from_secret: drone_discord_webhook_id
+    webhook_token:
+      from_secret: drone_discord_webhook_secret
+
+# Deploy on Python 3.12
+- name: deploy
+  image: python:3.12
+  commands:
+    - pip install -r ./staging/requirements.txt
+    - gunicorn --chdir webapp app:app
+
+node:
+  group: wordle
