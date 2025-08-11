@@ -4,7 +4,7 @@
 #####################
 
 kind: pipeline
-type: docker
+type: exec
 name: deploy-staging
 
 trigger:
@@ -12,24 +12,12 @@ trigger:
   - push
 
 steps:
-# Plugin for Build Notification to Discord
-- name: discord notification  
-  image: appleboy/drone-discord
-  settings:
-    webhook_id: 
-      from_secret: drone_discord_webhook_id
-    webhook_token:
-      from_secret: drone_discord_webhook_secret
-
-# Deploy on Python 3.12
 - name: deploy
-  image: python:3.12
   commands:
+  - python -m venv .venv
+  - source .venv/bin/activate
   - pip install -r requirements.txt
   - python webapp/app.py
-  volumes:
-  - name: pip-cache
-    path: .cache/pip
 
 node:
   group: wordle
