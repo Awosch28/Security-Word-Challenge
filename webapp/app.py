@@ -127,6 +127,7 @@ def before_request():
         request.url.startswith("http://")
         and not "localhost" in request.url
         and not "127.0.0." in request.url
+        and not "192.168.1.230" in request.url
     ):
         url = request.url.replace("http://", "https://", 1)
         code = 301
