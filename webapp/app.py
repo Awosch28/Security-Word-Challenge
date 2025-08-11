@@ -6,16 +6,37 @@ from flask import (
     url_for,
     request,
 )
+from logging.config import dictConfig
 import json
 
 import datetime
 import glob
 import random
+import logging
 
 # set random seed 42 for reproducibility (important to maintain stable word lists)
 random.seed(42)
 
+dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+    }},
+    'handlers': {'wsgi': {
+        'class': 'logging.StreamHandler',
+        'stream': 'ext://flask.logging.wsgi_errors_stream',
+        'formatter': 'default'
+    }},
+    'root': {
+        'level': 'INFO',
+        'handlers': ['wsgi']
+    }
+})
+
 app = Flask(__name__)
+app.config.from_pyfile('config.py')
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 #############
@@ -28,35 +49,41 @@ data_dir = "data/"
 # this could go in a modules file
 def load_characters():
     characters = set()
-    with open(f"{data_dir}words.txt", "r") as f:
-        for line in f:
-            characters.update(line.strip())
-    with open(f"{data_dir}chatacters.txt", "w") as f:
-        # write char per newline
-        for char in characters:
-            f.write(char + "\n")
-    return characters
+    try:
+        with open(f"{data_dir}words.txt", "r") as f:
+            for line in f:
+                characters.update(line.strip())
+        with open(f"{data_dir}characters.txt", "w") as f:
+            # write char per newline
+            for char in characters:
+                f.write(char + "\n")
+        return characters
+    except Exception as e:
+        logging.exception("unexpected error in load_characters")
     
 def load_words(characters):
     """loads the words and does some basic QA"""
     words = []
-    with open(f"{data_dir}words.txt", "r") as f:
-        for line in f:
-            words.append(line.strip())
+    try:
+        with open(f"{data_dir}words.txt", "r") as f:
+            for line in f:
+                words.append(line.strip())
 
-    # QA
-    words = [word.lower() for word in words if word.isalpha()]
-    # remove words without correct characters
-    words = [
-        word
-        for word in words
-        if all(char in characters for char in word)
-    ]
+        # QA
+        words = [word.lower() for word in words if word.isalpha()]
+        # remove words without correct characters
+        words = [
+            word
+            for word in words
+            if all(char in characters for char in word)
+        ]
 
-    # we don't want words in order, so we shuffle
-    random.shuffle(words)
-    
-    return words
+        # we don't want words in order, so we shuffle
+        random.shuffle(words)
+        
+        return words
+    except Exception as e:
+        logging.exception("Unexpected error in load_words")
 
 
 def load_helper_text():
@@ -65,7 +92,7 @@ def load_helper_text():
             language_config = json.load(f)
         return language_config
     except:
-        return "could not helper text"
+        return "could not load helper text"
     
 
 def load_keyboard():
@@ -74,13 +101,18 @@ def load_keyboard():
             keyboard = json.load(f)
         return keyboard
     except:
-        return []
+        logging.warning("could not load keyboard")
+        return "could not load keyboard"
     
 
 def get_todays_idx():
-    idx = datetime.datetime.now(datetime.timezone.utc) - datetime.datetime(1970)
-    return idx
-
+    try:
+        n_days = (datetime.datetime.utcnow() - datetime.datetime(1970, 1, 1)).days
+        idx = n_days - 18992 + 195  # need to go back to understand this part
+        return idx
+    except Exception as e:
+        logging.exception("Unexpected error in get_todays_idx")
+        return -1
 
 ###########
 # ROUTES
@@ -90,7 +122,7 @@ def get_todays_idx():
 # before request, redirct to https (unless localhost)
 @app.before_request
 def before_request():
-    print("BEFORE REQUEST")
+    app.logger.debug("BEFORE REQUEST")
     if (
         request.url.startswith("http://")
         and not "localhost" in request.url
@@ -103,12 +135,14 @@ def before_request():
 
 @app.route("/")
 def index():
-    return render_template(
-        "index.html",
+    try:
         todays_idx=get_todays_idx()
-    )
-
+        app.logger.info(f"Rendering index.html with todays_idx={todays_idx}")
+        return render_template("index.html", todays_idx=todays_idx, message="successfully returned render template")
+    except Exception as e:
+        app.logger.info("Error rendering index page")
+        return render_template("error.html", message="An unexpected error occurred."), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=8000, debug=True)
     
