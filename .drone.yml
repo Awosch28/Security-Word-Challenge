@@ -26,7 +26,7 @@ steps:
   image: python:3.12
   commands:
   - pip install -r requirements.txt
-  - gunicorn --chdir webapp app:app
+  - python webapp/app.py
   volumes:
   - name: pip-cache
     path: .cache/pip
