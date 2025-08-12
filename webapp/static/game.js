@@ -94,7 +94,7 @@ const app = Vue.createApp({
             windows.location.href = "https://" + window.location.hostname + window.location.pathname;
         }
     },
-    create() {
+    created() {
         // listen for any keypresses
         window.addEventListener('keydown', this.keyDown);
 
