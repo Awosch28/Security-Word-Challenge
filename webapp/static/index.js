@@ -10,7 +10,7 @@ const app = Vue.createApp({
 
             // flask data
             // other_wordles: other_wordles,
-            languages: languages,
+            // languages: languages,
             todays_idx: todays_idx,
 
             // copy of data for visualization
