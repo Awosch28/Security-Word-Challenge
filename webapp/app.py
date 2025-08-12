@@ -73,7 +73,7 @@ def load_words(characters):
                 words.append(line.strip())
     except Exception as e:
         app.logger.debug("Could not open words file: {e}")
-        return "could not open words file"
+        return "could not open words file: {e}"
 
     try:
         # QA
