@@ -45,9 +45,9 @@ const app = Vue.createApp({
     mounted() {
         window.addEventListener('keydown', this.keyDown);
     },
-    beforeUpdate() {
+    /*beforeUpdate() {
         this.filterWordles(this.search_text.toLowerCase());
-    },
+    },*/
     updated() {
     },
     methods: {
