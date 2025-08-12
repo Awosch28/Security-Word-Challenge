@@ -72,8 +72,8 @@ def load_words(characters):
             for line in f:
                 words.append(line.strip())
     except Exception as e:
-        app.logger.debug("Could not open words file: {e}")
-        return "could not open words file: {e}"
+        app.logger.debug(f"Could not open words file: {e}")
+        return f"could not open words file: {e}"
 
     try:
         # QA
@@ -93,7 +93,7 @@ def load_words(characters):
         
         return words
     except Exception as e:
-        app.logger.debug("Unexpected error in load_words: {e}")
+        app.logger.debug(f"Unexpected error in load_words: {e}")
         return "unexpected error when loading words"
 
 
