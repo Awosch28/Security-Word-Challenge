@@ -136,6 +136,7 @@ def before_request():
 
 @app.route("/")
 def index():
+    app.logger.debug("/")
     try:
         todays_idx=get_todays_idx()
         app.logger.info(f"Rendering index.html with todays_idx={todays_idx}")

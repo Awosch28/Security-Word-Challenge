@@ -9,13 +9,13 @@ const app = Vue.createApp({
             clickedLanguage: "",
 
             // flask data
-            other_wordles: other_wordles,
+            // other_wordles: other_wordles,
             languages: languages,
             todays_idx: todays_idx,
 
             // copy of data for visualization
-            other_wordles_vis: other_wordles,
-            languages_vis: languages,
+            // other_wordles_vis: other_wordles,
+            // languages_vis: languages,
 
             search_text: "",
             total_stats: {},
@@ -74,6 +74,7 @@ const app = Vue.createApp({
             console.log("open link: " + url);
             window.open(url);
         },
+        /* COMMENTED BECAUSE I DONT HAVE OTHER WORDLES
         filterWordles(search_text) {
             // hide items that don't match the search text
             // languages: language.name and language.name_native
@@ -105,7 +106,7 @@ const app = Vue.createApp({
                 this.other_wordles_vis = visible_wordles;
                 this.languages_vis = visible_languages;
             }
-        },
+        }, */
         calculateStats(language_code) {
             // returns stats for the current language
 
