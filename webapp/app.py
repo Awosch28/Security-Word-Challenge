@@ -71,22 +71,30 @@ def load_words(characters):
         with open(f"{data_dir}words.txt", "r") as f:
             for line in f:
                 words.append(line.strip())
+    except Exception as e:
+        app.logger.debug("Could not open words file")
+        return "could not open words file"
 
+    try:
         # QA
         words = [word.lower() for word in words if word.isalpha()]
+        app.logger.debug(f"Word list after isAlpha: {words}")
         # remove words without correct characters
         words = [
             word
             for word in words
             if all(char in characters for char in word)
         ]
+        app.logger.debug(f"Word list after character check: {words}")
 
         # we don't want words in order, so we shuffle
         random.shuffle(words)
+        app.logger.debug(f"Word list after shuffl: {words}")
         
         return words
     except Exception as e:
         app.logger.debug("Unexpected error in load_words")
+        return "unexpected error when loading words"
 
 
 def load_helper_text():
