@@ -148,4 +148,9 @@ def index():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)
-    
+
+
+# game route
+@app.route("/game")
+def game():
+    return render_template("game.html")
