@@ -61,6 +61,9 @@ def load_characters():
     except Exception as e:
         app.logger.debug("unexpected error in load_characters")
     
+
+language_characters = load_characters()
+
 def load_words(characters):
     """loads the words and does some basic QA"""
     words = []
@@ -94,6 +97,16 @@ def load_helper_text():
     except:
         app.logger.debug("could not load helper text")
         return "could not load helper text"
+
+
+def load_language_config():
+    try:
+        with open(f"{data_dir}language_config.json", "r") as f:
+            language_config = json.load(f)
+        return language_config
+    except:
+        app.logger.debug("could not load language config")
+        return "could not load language config"
     
 
 def load_keyboard():
@@ -114,6 +127,58 @@ def get_todays_idx():
     except Exception as e:
         app.logger.debug("Unexpected error in get_todays_idx")
         return -1
+
+language_words = load_words(language_characters)
+language_config = load_language_config()
+keyboard = load_keyboard()
+
+
+###############################################################################
+# CLASSES
+###############################################################################
+
+
+class Language:
+    """Holds the attributes of a language"""
+
+    def __init__(self, word_list):  # removed lang code as input as it is not needed
+        # self.language_code = language_code
+        self.word_list = word_list
+        # self.word_list_supplement = language_codes_5words_supplements[language_code]
+        todays_idx = get_todays_idx()
+        self.daily_word = word_list[todays_idx % len(word_list)]
+        self.todays_idx = todays_idx
+        self.config = language_config
+
+        self.characters = language_characters
+        # remove chars that aren't used to reduce bloat a bit
+        characters_used = []
+        for word in self.word_list:
+            characters_used += list(word)
+        characters_used = list(set(characters_used))
+        self.characters = [char for char in self.characters if char in characters_used]
+
+        self.keyboard = keyboard
+        if self.keyboard == []:  # if no keyboard defined, then use available chars
+            # keyboard of ten characters per row
+            for i, c in enumerate(self.characters):
+                if i % 10 == 0:
+                    self.keyboard.append([])
+                self.keyboard[-1].append(c)
+            self.keyboard[-1].insert(0, "⇨")
+            self.keyboard[-1].append("⌫")
+
+            # Deal with bottom row being too crammed:
+            if len(self.keyboard[-1]) == 11:
+                popped_c = self.keyboard[-1].pop(1)
+                self.keyboard[-2].insert(-1, popped_c)
+            if len(self.keyboard[-1]) == 12:
+                popped_c = self.keyboard[-2].pop(0)
+                self.keyboard[-3].insert(-1, popped_c)
+                popped_c = self.keyboard[-1].pop(2)
+                self.keyboard[-2].insert(-1, popped_c)
+                popped_c = self.keyboard[-1].pop(2)
+                self.keyboard[-2].insert(-1, popped_c)
 
 ###########
 # ROUTES
@@ -153,4 +218,6 @@ if __name__ == '__main__':
 # game route
 @app.route("/game")
 def game():
-    return render_template("game.html")
+    word_list = language_words
+    language = Language(word_list)
+    return render_template("game.html", language=language)
