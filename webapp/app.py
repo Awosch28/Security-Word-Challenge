@@ -217,6 +217,7 @@ def index():
 def game():
     app.logger.debug("/game")
     word_list = language_words
+    app.logger.debug(word_list)
     language = Language(word_list)
     return render_template("game.html", language=language)
 
