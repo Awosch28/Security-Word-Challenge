@@ -13,6 +13,7 @@ import datetime
 import glob
 import random
 import logging
+import os
 
 # set random seed 42 for reproducibility (important to maintain stable word lists)
 random.seed(42)
@@ -44,7 +45,9 @@ logging.basicConfig(level=logging.DEBUG)
 #############
 print("Loading data...")
 
-data_dir = "data/"  
+# data_dir = "data/"  
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "data")
 
 # this could go in a modules file
 def load_characters():
@@ -67,8 +70,9 @@ language_characters = load_characters()
 def load_words(characters):
     """loads the words and does some basic QA"""
     words = []
+    words_file = os.path.join(DATA_DIR, "words.txt")
     try:
-        with open(f"{data_dir}words.txt", "r") as f:
+        with open(words_file, "r") as f:
             for line in f:
                 words.append(line.strip())
     except Exception as e:
@@ -89,7 +93,7 @@ def load_words(characters):
 
         # we don't want words in order, so we shuffle
         random.shuffle(words)
-        app.logger.debug(f"Word list after shuffl: {words}")
+        app.logger.debug(f"Word list after shuffle: {words}")
         
         return words
     except Exception as e:
