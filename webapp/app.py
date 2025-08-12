@@ -211,13 +211,15 @@ def index():
         app.logger.info("Error rendering index page")
         return render_template("error.html", message="An unexpected error occurred."), 500
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
-
 
 # game route
 @app.route("/game")
 def game():
+    app.logger.debug("/game")
     word_list = language_words
     language = Language(word_list)
     return render_template("game.html", language=language)
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000, debug=True)
