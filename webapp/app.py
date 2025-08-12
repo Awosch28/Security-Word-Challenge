@@ -59,7 +59,7 @@ def load_characters():
                 f.write(char + "\n")
         return characters
     except Exception as e:
-        logging.exception("unexpected error in load_characters")
+        app.logger.debug("unexpected error in load_characters")
     
 def load_words(characters):
     """loads the words and does some basic QA"""
@@ -83,7 +83,7 @@ def load_words(characters):
         
         return words
     except Exception as e:
-        logging.exception("Unexpected error in load_words")
+        app.logger.debug("Unexpected error in load_words")
 
 
 def load_helper_text():
@@ -92,6 +92,7 @@ def load_helper_text():
             language_config = json.load(f)
         return language_config
     except:
+        app.logger.debug("could not load helper text")
         return "could not load helper text"
     
 
@@ -101,7 +102,7 @@ def load_keyboard():
             keyboard = json.load(f)
         return keyboard
     except:
-        logging.warning("could not load keyboard")
+        app.logger.debug("could not load keyboard")
         return "could not load keyboard"
     
 
@@ -111,7 +112,7 @@ def get_todays_idx():
         idx = n_days - 18992 + 195  # need to go back to understand this part
         return idx
     except Exception as e:
-        logging.exception("Unexpected error in get_todays_idx")
+        app.logger.debug("Unexpected error in get_todays_idx")
         return -1
 
 ###########
