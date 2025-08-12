@@ -52,17 +52,19 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 # this could go in a modules file
 def load_characters():
     characters = set()
+    words_file = os.path.join(DATA_DIR, "words.txt")
+    characters_file = os.path.join(DATA_DIR, "characters.txt")
     try:
-        with open(f"{data_dir}words.txt", "r") as f:
+        with open(words_file, "r") as f:
             for line in f:
                 characters.update(line.strip())
-        with open(f"{data_dir}characters.txt", "w") as f:
+        with open(characters_file, "w") as f:
             # write char per newline
             for char in characters:
                 f.write(char + "\n")
         return characters
     except Exception as e:
-        app.logger.debug("unexpected error in load_characters")
+        app.logger.debug(f"unexpected error in load_characters: {e}")
     
 
 language_characters = load_characters()
@@ -102,33 +104,36 @@ def load_words(characters):
 
 
 def load_helper_text():
+    lang_config_file = os.path.join(DATA_DIR, "language_config.json")
     try:
-        with open(f"{data_dir}language_config.json","r") as f:
+        with open(lang_config_file, "r") as f:
             language_config = json.load(f)
         return language_config
     except:
-        app.logger.debug("could not load helper text")
-        return "could not load helper text"
+        app.logger.debug(f"could not load helper text: {e}")
+        return f"could not load helper text: {e}"
 
 
 def load_language_config():
+    lang_config_file = os.path.join(DATA_DIR, "language_config.json")
     try:
-        with open(f"{data_dir}language_config.json", "r") as f:
+        with open(lang_config_file, "r") as f:
             language_config = json.load(f)
         return language_config
     except:
-        app.logger.debug("could not load language config")
-        return "could not load language config"
+        app.logger.debug(f"could not load language config: {e}")
+        return f"could not load language config: {e}"
     
 
 def load_keyboard():
+    keyboard_file = os.path.join(DATA_DIR, "keyboard.json")
     try:
-        with open(f"{data_dir}keyboard.json", "r") as f:
+        with open(keyboard_file, "r") as f:
             keyboard = json.load(f)
         return keyboard
     except:
-        app.logger.debug("could not load keyboard")
-        return "could not load keyboard"
+        app.logger.debug(f"could not load keyboard: {e}")
+        return f"could not load keyboard: {e}"
     
 
 def get_todays_idx():
