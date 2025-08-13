@@ -22,6 +22,7 @@
         <script>
             const word_list = JSON.parse('{{language.word_list | tojson | safe}}');
             const characters = JSON.parse('{{language.characters | tojson | safe}}');
+            const config = JSON.parse('{{language.config | tojson | safe}}');
             console.log("Character Set: " + characters);
             const todays_idx = "{{ language.todays_idx }}"
             const todays_word = "{{ language.daily_word }}"
