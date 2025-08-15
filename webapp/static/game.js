@@ -516,7 +516,7 @@ const app = Vue.createApp({
                 n_attempts += result.attempts;
             }
             var avg_attempts = n_attempts / results.length;
-            var win_percentage = n_wins / (((n_wins + n_losses) * 100) || 0);
+            var win_percentage = ((n_wins / (n_wins + n_losses)) * 100 || 0);
 
             return {
                 "n_wins": n_wins,
