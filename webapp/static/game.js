@@ -90,7 +90,7 @@ const app = Vue.createApp({
     },
     beforeCreate() {
         // if http redirect to same url in https
-        if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1" && window.location.protocol !== "https:") {
+        if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1" && window.location.protocol !== "https:" && window.location.hostname !== "192.168.1.230") {
             windows.location.href = "https://" + window.location.hostname + window.location.pathname;
         }
     },
