@@ -401,7 +401,7 @@ const app = Vue.createApp({
             this.notification.show = true;
             this.notification.message = message;
             this.notification.timeout = setTimeout(() => {
-                this.notiifcaiton.show = false;
+                this.notification.show = false;
             }, duration * 1000);
         },
 
