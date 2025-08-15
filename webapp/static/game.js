@@ -49,6 +49,17 @@ const app = Vue.createApp({
                 ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                 ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
             ],
+
+            // have to spilt it in two because of righ to left text and this was the easiest way to do it 
+            // ^ this suggests I may not even need these, will review later
+            tiles_visual: [
+                ["", "", "", "", ""],
+                ["", "", "", "", ""],
+                ["", "", "", "", ""],
+                ["", "", "", "", ""],
+                ["", "", "", "", ""],
+                ["", "", "", "", ""],
+            ],
             tile_classes_visual: [
                 ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                 ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
