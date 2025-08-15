@@ -114,7 +114,7 @@ def load_helper_text():
         return f"could not load helper text: {e}"
 
 
-def load_supplemental_words(characters):
+def load_words_supplement(characters):
     """loads the supplemental words file if it exists"""
     words_sup_file = os.path.join(DATA_DIR, "words_supplement.txt")
     try:
@@ -162,7 +162,7 @@ def get_todays_idx():
         return -1
 
 language_words = load_words(language_characters)
-language_words_supplement = language_words_supplement(language_characters)
+language_words_supplement = load_words_supplement(language_characters)
 language_config = load_language_config()
 keyboard = load_keyboard()
 
