@@ -347,7 +347,7 @@ const app = Vue.createApp({
             } else {
                 for (let i = 0; i < this.tiles.length; i++) {
                     this.tiles_visual[i] = this.tiles[i].map(x => x).reverse();
-                    this.tile_classes_visual[i] = this.tile_classess[i].map(x => x).reverse();
+                    this.tile_classes_visual[i] = this.tile_classes[i].map(x => x).reverse();
                 }
             }
         },
