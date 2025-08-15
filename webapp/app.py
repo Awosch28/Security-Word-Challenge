@@ -255,6 +255,7 @@ def game():
     word_list_supplement = language_words_supplement
     app.logger.debug(word_list)
     language = Language(word_list, word_list_supplement)
+    app.logger.debug(f"daily word is {language.daily_word}")  # this should only be temporary
     return render_template("game.html", language=language)
 
 
