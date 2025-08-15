@@ -33,7 +33,7 @@ const app = Vue.createApp({
                 timeout: 0,
             },
 
-            titles: [
+            tiles: [
                 ["", "", "", "", ""],
                 ["", "", "", "", ""],
                 ["", "", "", "", ""],
