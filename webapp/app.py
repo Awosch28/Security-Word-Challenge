@@ -114,6 +114,22 @@ def load_helper_text():
         return f"could not load helper text: {e}"
 
 
+def load_supplemental_words(characters):
+    """loads the supplemental words file if it exists"""
+    words_sup_file = os.path.join(DATA_DIR, "words_supplement.txt")
+    try:
+        with open(words_sup_file, "r") as f:
+            supplemental_words = [line.strip() for line in f]
+        supplemental_words = [
+            word
+            for word in supplemental_words
+            if all([char in characters for char in word])
+        ]
+    except FileNotFoundError:
+        supplemental_words = []
+    return supplemental_words
+
+
 def load_language_config():
     lang_config_file = os.path.join(DATA_DIR, "language_config.json")
     try:
@@ -146,6 +162,7 @@ def get_todays_idx():
         return -1
 
 language_words = load_words(language_characters)
+language_words_supplement = language_words_supplement(language_characters)
 language_config = load_language_config()
 keyboard = load_keyboard()
 
@@ -158,9 +175,10 @@ keyboard = load_keyboard()
 class Language:
     """Holds the attributes of a language"""
 
-    def __init__(self, word_list):  # removed lang code as input as it is not needed
+    def __init__(self, word_list, word_list_supplement):  # removed lang code as input as it is not needed
         # self.language_code = language_code
         self.word_list = word_list
+        self.word_list_supplement = word_list_supplement
         # self.word_list_supplement = language_codes_5words_supplements[language_code]
         todays_idx = get_todays_idx()
         self.daily_word = word_list[todays_idx % len(word_list)]
@@ -234,8 +252,9 @@ def index():
 def game():
     app.logger.debug("/game")
     word_list = language_words
+    word_list_supplement = language_words_supplement
     app.logger.debug(word_list)
-    language = Language(word_list)
+    language = Language(word_list, word_list_supplement)
     return render_template("game.html", language=language)
 
 

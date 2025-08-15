@@ -14,7 +14,7 @@ const app = Vue.createApp({
             todays_word: todays_word,
             todays_idx: todays_idx,
             word_list: word_list,
-            word_list_suppliement: word_list_supplement,
+            word_list_supplement: word_list_supplement,
             characters: characters,
             config: config,
             right_to_left: config.right_to_left == "true",  // this can probably just be set to false, because I don't see why anyone would default to right-to-left
