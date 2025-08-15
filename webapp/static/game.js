@@ -218,7 +218,7 @@ const app = Vue.createApp({
         updateColors() {
             // NOTE: if a character appears only once in the final word, but multiple times in submitted word
             // then we want to only color one. The hierarchy is correct first, then the semi-correct ones by position.
-            var todays_word = this.todays_word;
+            // COMMENTED THIS TO SEE IF IT FIXES AN ERROR I WAS HAVING: var todays_word = this.todays_word;
             const base_class = "text-2xl tiny:text-4xl uppercase font-bold select-none text-whit";
             var charcounts = {};
 
