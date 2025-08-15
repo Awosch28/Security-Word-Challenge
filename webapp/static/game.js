@@ -428,7 +428,7 @@ const app = Vue.createApp({
 
                 // add newline if not last row
                 if (i < this.tile_classes.length - 1){
-                    emoji_board += "/n";
+                    emoji_board += "\n";
                 }
 
                 this.attempts = String(i+1);
