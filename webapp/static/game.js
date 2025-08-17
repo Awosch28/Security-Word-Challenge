@@ -136,9 +136,9 @@ const app = Vue.createApp({
     },
     mounted() {
         // print time until next day every 5 seconds
-        setInterval(() => {
+        /*setInterval(() => {
             this.time_until_next_day = this.get_time_until_next_day();
-        }, 1000);
+        }, 1000);*/
         this.loadFromLocalStorage();
         this.showTiles();
 
