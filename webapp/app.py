@@ -68,6 +68,7 @@ def load_characters():
     try:
         with open(words_file, "r") as f:
             characters = [line.strip() for line in f]
+        return characters
     except Exception as e:
         app.logger.debug(f"unexpected error in load_characters: {e}")
     
