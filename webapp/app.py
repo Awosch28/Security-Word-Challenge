@@ -11,9 +11,6 @@ from logging.config import dictConfig
 import json
 
 from werkzeug.middleware.proxy_fix import ProxyFix
-app.wsgi_app = ProxyFix(
-    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
-)
 
 import datetime
 import glob
@@ -45,6 +42,11 @@ app.config.from_pyfile('config.py')
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # SQLite database file
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Suppress a warning
 # db = SQLAlchemy(app)
+
+# added because I host it behind a reverse proxy
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
 
 logging.basicConfig(level=logging.DEBUG)
 
