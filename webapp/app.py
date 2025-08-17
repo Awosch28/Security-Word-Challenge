@@ -192,11 +192,11 @@ class Language:
 
         self.characters = language_characters
         # remove chars that aren't used to reduce bloat a bit
-        characters_used = []
+        """characters_used = []
         for word in self.word_list:
             characters_used += list(word)
         characters_used = list(set(characters_used))
-        self.characters = [char for char in self.characters if char in characters_used]
+        self.characters = [char for char in self.characters if char in characters_used]"""
 
         self.keyboard = keyboard
         if self.keyboard == []:  # if no keyboard defined, then use available chars
