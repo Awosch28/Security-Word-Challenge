@@ -67,13 +67,7 @@ def load_characters():
     characters_file = os.path.join(DATA_DIR, "characters.txt")
     try:
         with open(words_file, "r") as f:
-            for line in f:
-                characters.update(line.strip())
-        with open(characters_file, "w") as f:
-            # write char per newline
-            for char in characters:
-                f.write(char + "\n")
-        return characters
+            characters = [line.strip() for line in f]
     except Exception as e:
         app.logger.debug(f"unexpected error in load_characters: {e}")
     
