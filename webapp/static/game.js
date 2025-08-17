@@ -17,7 +17,7 @@ const app = Vue.createApp({
             word_list_supplement: word_list_supplement,
             characters: characters,
             config: config,
-            right_to_left: config.right_to_left == "true",  // this can probably just be set to false, because I don't see why anyone would default to right-to-left
+            // right_to_left: config.right_to_left == "true",  // this can probably just be set to false, because I don't see why anyone would default to right-to-left
             allow_any_word: false,
 
 
@@ -285,6 +285,7 @@ const app = Vue.createApp({
         },
         keyDown(event) {
             key = event.key;
+            document.activeElement.blur();  // unfocuses activeElements so that clicked buttons don't stay "in focus"
             if (key === "Escape") { // QoL
                 this.showHelpModal = false;
                 this.show_stats_modal = false;
