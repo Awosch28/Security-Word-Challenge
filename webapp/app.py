@@ -44,7 +44,7 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # SQLite database file
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Suppress a warning
-db = SQLAlchemy(app)
+# db = SQLAlchemy(app)
 
 logging.basicConfig(level=logging.DEBUG)
 
