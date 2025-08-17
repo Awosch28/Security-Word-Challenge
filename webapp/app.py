@@ -6,8 +6,14 @@ from flask import (
     url_for,
     request,
 )
+# from flask_sqlalchemy import SQLAlchemy
 from logging.config import dictConfig
 import json
+
+from werkzeug.middleware.proxy_fix import ProxyFix
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
 
 import datetime
 import glob
@@ -36,6 +42,9 @@ dictConfig({
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # SQLite database file
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Suppress a warning
+db = SQLAlchemy(app)
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -214,6 +223,10 @@ class Language:
                 self.keyboard[-2].insert(-1, popped_c)
                 popped_c = self.keyboard[-1].pop(2)
                 self.keyboard[-2].insert(-1, popped_c)
+
+
+
+
 
 ###########
 # ROUTES
