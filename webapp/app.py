@@ -114,7 +114,7 @@ def load_helper_text():
         with open(lang_config_file, "r") as f:
             language_config = json.load(f)
         return language_config
-    except:
+    except Exception as e:
         app.logger.debug(f"could not load helper text: {e}")
         return f"could not load helper text: {e}"
 
@@ -141,7 +141,7 @@ def load_language_config():
         with open(lang_config_file, "r") as f:
             language_config = json.load(f)
         return language_config
-    except:
+    except Exception as e:
         app.logger.debug(f"could not load language config: {e}")
         return f"could not load language config: {e}"
     
@@ -152,7 +152,7 @@ def load_keyboard():
         with open(keyboard_file, "r") as f:
             keyboard = json.load(f)
         return keyboard
-    except:
+    except Exception as e:
         app.logger.debug(f"could not load keyboard: {e}")
         return f"could not load keyboard: {e}"
     

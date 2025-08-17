@@ -416,7 +416,7 @@ const app = Vue.createApp({
                 var row = this.tile_classes[i];
                 for (let j = 0; j < row.length; j++) {
                     var tile_class = row[j];
-                    if (tile_class.indexOf("correct") >= 0 && tile_class.indexOf("semicorrect") == -1 && tile_class.indexOf("incorrect") -1) {
+                    if (tile_class.indexOf("correct") >= 0 && tile_class.indexOf("semicorrect") == -1 && tile_class.indexOf("incorrect") == -1) {
                         emoji_board += "🟩";
                     } else if (tile_class.indexOf("semicorrect") >= 0) {
                         emoji_board += "🟨";
