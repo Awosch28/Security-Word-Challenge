@@ -63,10 +63,9 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 # this could go in a modules file
 def load_characters():
     characters = set()
-    words_file = os.path.join(DATA_DIR, "words.txt")
     characters_file = os.path.join(DATA_DIR, "characters.txt")
     try:
-        with open(words_file, "r") as f:
+        with open(characters_file, "r") as f:
             characters = [line.strip() for line in f]
         return characters
     except Exception as e:
