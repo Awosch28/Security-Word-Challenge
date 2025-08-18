@@ -77,7 +77,7 @@ app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-# Naive database setup
+# Naive databse setup
 try:
     init_db_command()
 except sqlite3.OperationalError:
