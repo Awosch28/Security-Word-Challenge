@@ -322,8 +322,8 @@ def index():
                 f'<img src="{current_user.profile_pic}" alt="Google profile pic"></img></div>'
                 '<a class="button" href="/logout">Logout</a>'
             )
-
-        return '<a class="button" href="/login">Google Login</a>'
+        else:
+            return '<a class="button" href="/login">Google Login</a>'
     except Exception as e:
         app.logger.info("Error rendering index page: %s", e)
         return render_template("error.html", message=f"An unexpected error occurred: {e}"), 500
