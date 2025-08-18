@@ -17,6 +17,11 @@ steps:
   - pip3 install -r requirements.txt
   - python3 webapp/app.py
   - python3 webapp/app.py
+  environment:
+    GOOGLE_CLIENT_ID:
+      from_secret: wordle_google_client_id
+    GOOGLE_CLIENT_SECRET:
+      from_secret: wordle_google_client_secret
 
 node:
   group: wordle
