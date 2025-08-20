@@ -335,6 +335,8 @@ def login():
     # Find out what URL to hit for Google Login
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+    app.logger.debug("authorization_endpoint: %s", authorization_endpoint)
+    app.logger.debug("request.base_url: %s", request.base_url)
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
@@ -343,6 +345,8 @@ def login():
         redirect_uri=request.base_url + "/callback",
         scope=["openid", "email", "profile"],
     )
+
+    app.logger.debug("request_uri: %s", request_uri)
     return redirect(request_uri)
 
 
@@ -351,11 +355,15 @@ def callback():
     '''Google Account Callback'''
     # Get authorization code Google sent back to you
     code = request.args.get("code")
+    app.logger.debug("Got the Google code: %s", code)
 
     # Find out what URL to hit to get tokens that allow you to ask for
     # things on behalf of a user
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]
+    app
+
+    app.logger.debug("token_endpoint: %s", token_endpoint)
 
     # Prepare and send a request to get tokens!
     token_url, headers, body = client.prepare_token_request(
@@ -364,6 +372,12 @@ def callback():
         redirect_url=request.base_url,
         code=code
     )
+
+    app.logger.debug("token_url: %s", token_url)
+    app.logger.debug("headers: %s", headers)
+    app.logger.debug("body: %s", body)
+
+
     token_response = requests.post(
         token_url,
         headers=headers,
@@ -372,8 +386,11 @@ def callback():
         timeout=30
     )
 
+    app.logger.debug("token_response: %s", token_response)
+
     # Parse the tokens
     client.parse_request_body_response(json.dumps(token_response.json()))
+    
 
     # Now that we have tokens, we find and hit the URL
     # from Google that gives the user's profile information,
