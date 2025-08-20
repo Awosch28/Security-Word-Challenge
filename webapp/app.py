@@ -94,7 +94,7 @@ def load_user(user_id):
     '''Flask-Login helper to retrieve a user from our db'''
     return User.get(user_id)
 
-ALLOWED_DOMAIN = "gmail.com" # Only allow users from these domains
+ALLOWED_DOMAIN = ["gmail.com", "netskope.com"] # Only allow users from these domains
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # SQLite database file
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Suppress a warning
@@ -440,7 +440,7 @@ def logout():
     return redirect(url_for("index"))
 
 
-"""@app.before_request
+@app.before_request
 def require_login():
     '''Protect Routes by Checking Login.'''
     '''May not need this if I can use @login_required decorator'''
@@ -449,7 +449,7 @@ def require_login():
         and not (request.endpoint in ["login", "auth_callback", "static"])
     ):
         return redirect(url_for("login"))
-"""
+
 
 # game route
 @app.route("/game")
