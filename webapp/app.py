@@ -60,7 +60,9 @@ dictConfig({
 
 # Configuration
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
+print(f"client id: {GOOGLE_CLIENT_ID}")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", None)
+print(f"client_secret: {GOOGLE_CLIENT_SECRET}")
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
@@ -92,7 +94,7 @@ def load_user(user_id):
     '''Flask-Login helper to retrieve a user from our db'''
     return User.get(user_id)
 
-ALLOWED_DOMAINS = {"gmail.com"} # Only allow users from these domains
+ALLOWED_DOMAIN = "gmail.com" # Only allow users from these domains
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # SQLite database file
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Suppress a warning
@@ -361,7 +363,6 @@ def callback():
     # things on behalf of a user
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]
-    app
 
     app.logger.debug("token_endpoint: %s", token_endpoint)
 
@@ -390,7 +391,6 @@ def callback():
 
     # Parse the tokens
     client.parse_request_body_response(json.dumps(token_response.json()))
-    
 
     # Now that we have tokens, we find and hit the URL
     # from Google that gives the user's profile information,
@@ -411,7 +411,8 @@ def callback():
         return "User email not available or not verified by Google.", 400
 
     # Check if the account is part of the organization
-    if users_email.split("@")[-1] not in ALLOWED_DOMAINS:
+    app.logger.debug("domain: %s", users_email.split("@")[-1])
+    if users_email.split("@")[-1] == ALLOWED_DOMAIN:
         return "Access denied: you must use a company email address.", 403
 
     # Create a user in your db with the information provided
