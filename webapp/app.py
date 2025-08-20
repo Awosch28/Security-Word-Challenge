@@ -440,17 +440,6 @@ def logout():
     return redirect(url_for("index"))
 
 
-@app.before_request
-def require_login():
-    '''Protect Routes by Checking Login.'''
-    '''May not need this if I can use @login_required decorator'''
-    if (
-        "user" not in session
-        and not (request.endpoint in ["login", "auth_callback", "static"])
-    ):
-        return redirect(url_for("login"))
-
-
 # game route
 @app.route("/game")
 def game():
