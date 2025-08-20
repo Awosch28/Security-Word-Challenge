@@ -345,7 +345,7 @@ def login():
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
         redirect_uri=request.base_url + "/callback",
-        # scope=["openid", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"],
+        scope=["openid", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"],
     )
 
     app.logger.debug("request_uri: %s", request_uri)
@@ -440,7 +440,7 @@ def logout():
     return redirect(url_for("index"))
 
 
-@app.before_request
+"""@app.before_request
 def require_login():
     '''Protect Routes by Checking Login.'''
     '''May not need this if I can use @login_required decorator'''
@@ -449,7 +449,7 @@ def require_login():
         and not (request.endpoint in ["login", "auth_callback", "static"])
     ):
         return redirect(url_for("login"))
-
+"""
 
 # game route
 @app.route("/game")
