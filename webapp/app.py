@@ -94,7 +94,7 @@ def load_user(user_id):
     '''Flask-Login helper to retrieve a user from our db'''
     return User.get(user_id)
 
-ALLOWED_DOMAIN = ["gmail.com", "netskope.com"] # Only allow users from these domains
+ALLOWED_DOMAINS = ["gmail.com", "netskope.com"] # Only allow users from these domains
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # SQLite database file
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Suppress a warning
@@ -412,7 +412,7 @@ def callback():
 
     # Check if the account is part of the organization
     app.logger.debug("domain: %s", users_email.split("@")[-1])
-    if users_email.split("@")[-1] != ALLOWED_DOMAIN:
+    if users_email.split("@")[-1] not in ALLOWED_DOMAINS:
         return "Access denied: you must use a company email address.", 403
 
     # Create a user in your db with the information provided
