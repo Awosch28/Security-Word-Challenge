@@ -345,7 +345,7 @@ def login():
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
         redirect_uri=request.base_url + "/callback",
-        scope=["openid", "email", "profile"],
+        scope=["openid", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"],
     )
 
     app.logger.debug("request_uri: %s", request_uri)
@@ -412,7 +412,7 @@ def callback():
 
     # Check if the account is part of the organization
     app.logger.debug("domain: %s", users_email.split("@")[-1])
-    if users_email.split("@")[-1] == ALLOWED_DOMAIN:
+    if users_email.split("@")[-1] != ALLOWED_DOMAIN:
         return "Access denied: you must use a company email address.", 403
 
     # Create a user in your db with the information provided
