@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String
-from database import Base
+from database import Base, db_session
 from utils import (
     get_todays_idx,
     load_language_config,
@@ -67,16 +67,16 @@ class User(UserMixin, Base):
         return f'<User {self.name!r}>'
     
     @classmethod
-    def get_by_id(cls, db_session, id):
+    def get_user(cls, id):
         """Return a User instance by unique ID or None if not found."""
         user = db_session.query(cls).filter(cls.id == id).first()
         logger.debug(user)
         return user
 
     @classmethod
-    def create_user(cls, db_session, id, name, email):
+    def create_user(cls, id, name, email):
         """Create a new user"""
-        user = cls.get_by_id(db_session, id)
+        user = cls.get_by_id(id)
         if not user:
             user = cls(id, name, email, '', '')
             db_session.add(user)
