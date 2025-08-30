@@ -271,12 +271,13 @@ def game():
     logger.debug("/game")
     language = Language()
     logger.debug("daily word is: %s", language.daily_word)  # this should only be temporary
-    
-    cur = get_db().cursor()
     # ... perform database operations ...
 
     return render_template("game.html", language=language)
 
+# @app.route("/update-game-state")
+
+# @app.route("/update-game-result")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, ssl_context="adhoc", debug=True)
