@@ -246,7 +246,7 @@ def callback():
     user = User.create_user(db_session, unique_id, name, email)
 
     # Begin user session by logging the user in
-    login_user(u)
+    login_user(user)
 
     # Send user back to homepage
     return redirect(url_for("index"))
