@@ -135,6 +135,7 @@ def before_request():
 def index():
     '''Prompt Users to Sign In w/ Google.'''
     logger.debug("/")
+    logger.debug("current user: %s", current_user)
     try:
         if current_user.is_authenticated:
             return (
