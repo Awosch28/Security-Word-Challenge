@@ -46,7 +46,7 @@ class Language:
                 self.keyboard[-2].insert(-1, popped_c)
 
 
-class User(Base):
+class User(UserMixin, Base):
     '''Holds the attributes for a User'''
     __tablename__ = 'users'
     user_id = Column(String(50), primary_key=True)
@@ -65,3 +65,18 @@ class User(Base):
     def __repr__(self):
         return f'<User {self.name!r}>'
     
+    @classmethod
+    def get_by_id(cls, db_session, unique_id):
+        """Return a User instance by unique ID or None if not found."""
+        return db_session.query(cls).filter(cls.user_id == unique_id).first()
+
+    @classmethod
+    def create_user(cls, db_session, unique_id, name, email):
+        """Create a new user"""
+        user = cls.get_by_id(db_session, unique_id)
+        if not user:
+            user = cls(unique_id, name, email, '', '')
+            db_session.add(user)
+            db_session.commit()
+        return user
+

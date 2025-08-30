@@ -235,13 +235,15 @@ def callback():
         return "Access denied: you must use a company email address.", 403
 
     # Doesn't exist? Add it to the databse.
-    if not User.query.filter(User.user_id == unique_id).first():
+    ''' if not User.query.filter(User.user_id == unique_id).first():
         # convert unique_id to int
         u = User(unique_id, name, email, '', '')
         db_session.add(u)
         db_session.commit()
     else:
-        u = User(unique_id, name, email, User.game_state, User.game_results)
+        u = User(unique_id, name, email, User.game_state, User.game_results)'''
+    
+    user = User.create_user(db_session, unique_id, name, email)
 
     # Begin user session by logging the user in
     login_user(u)
