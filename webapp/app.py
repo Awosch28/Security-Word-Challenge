@@ -242,7 +242,7 @@ def callback():
         db_session.commit()
 
     # Begin user session by logging the user in
-    login_user(user)
+    login_user(u)
 
     # Send user back to homepage
     return redirect(url_for("index"))
