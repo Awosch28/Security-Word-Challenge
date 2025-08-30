@@ -7,7 +7,7 @@ from utils import (
     load_characters,
     load_keyboard,
     load_words,
-    load_words_supplement
+    load_words_supplement,
     logger
 )
 
