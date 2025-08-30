@@ -240,6 +240,8 @@ def callback():
         u = User(unique_id, name, email, '', '')
         db_session.add(u)
         db_session.commit()
+    else:
+        u = User(unique_id, name, email, User.game_state, User.game_results)
 
     # Begin user session by logging the user in
     login_user(u)
