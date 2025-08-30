@@ -266,6 +266,7 @@ def logout():
 
 # game route
 @app.route("/game")
+@login_required
 def game():
     '''Runs the game.'''
     logger.debug("/game")
