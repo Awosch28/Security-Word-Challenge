@@ -140,7 +140,7 @@ def index():
             return (
                 f"<p>Hello, {current_user.name}! You're logged in! Email: {current_user.email}</p>"
                 "<div><p>Google Profile Picture:</p>"
-                "<a class="button" href="/logout">Logout</a>"
+                '<a class="button" href="/logout">Logout</a>'
             )
         else:
             return '<a class="button" href="/login">Google Login</a>'
