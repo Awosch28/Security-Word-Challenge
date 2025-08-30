@@ -3,6 +3,7 @@ import logging
 import datetime
 import json
 import random
+import requests
 
 # data_dir = "data/"
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
