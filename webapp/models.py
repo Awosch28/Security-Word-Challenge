@@ -76,7 +76,7 @@ class User(UserMixin, Base):
     @classmethod
     def create_user(cls, id, name, email):
         """Create a new user"""
-        user = cls.get_by_id(id)
+        user = cls.user(id)
         if not user:
             user = cls(id, name, email, '', '')
             db_session.add(user)
