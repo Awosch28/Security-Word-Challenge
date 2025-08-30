@@ -49,7 +49,7 @@ class Language:
 class User(Base):
     '''Holds the attributes for a User'''
     __tablename__ = 'users'
-    user_id = Column(Integer, primary_key=True)
+    user_id = Column(String(50), primary_key=True)
     name = Column(String(50), unique=True)
     email = Column(String(120), unique=True)
     game_state = Column(String(120), unique=True)

@@ -237,7 +237,6 @@ def callback():
     # Doesn't exist? Add it to the databse.
     if not User.query.filter(User.user_id == unique_id).first():
         # convert unique_id to int
-        unique_id = int(unique_id)
         u = User(unique_id, name, email, '', '')
         db_session.add(u)
         db_session.commit()
