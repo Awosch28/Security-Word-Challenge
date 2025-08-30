@@ -158,7 +158,7 @@ def login():
     '''Google Account Login.'''
     # Find out what URL to hit for Google Login
     google_provider_cfg = get_google_provider_cfg()
-    logger.debug("google provider cfg: %s", e)
+    logger.debug("google provider cfg: %s", google_provider_cfg)
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
     logger.debug("authorization_endpoint: %s", authorization_endpoint)
     logger.debug("request.base_url: %s", request.base_url)
