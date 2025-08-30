@@ -8,6 +8,7 @@ from utils import (
     load_keyboard,
     load_words,
     load_words_supplement
+    logger
 )
 
 class Language:
@@ -68,7 +69,9 @@ class User(UserMixin, Base):
     @classmethod
     def get_by_id(cls, db_session, id):
         """Return a User instance by unique ID or None if not found."""
-        return db_session.query(cls).filter(cls.id == id).first()
+        user = db_session.query(cls).filter(cls.id == id).first()
+        logger.debug(user)
+        return user
 
     @classmethod
     def create_user(cls, db_session, id, name, email):
