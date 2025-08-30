@@ -97,10 +97,10 @@ client = WebApplicationClient(GOOGLE_CLIENT_ID)
 def load_user(db_session, user_id):
     '''Flask-Login helper to retrieve a user from our db'''
     try:
-        user = User.get_by_id(db_sesion, user_id)
+        user = User.get_by_id(db_session, user_id)
         return user 
     except Exception as e:
-        logger.debug("Error loading user: %s", e)
+        logger.debug("Error loading us-087er: %s", e)
 
 ALLOWED_DOMAINS = ["gmail.com", "netskope.com"] # Only allow users from these domains
 
