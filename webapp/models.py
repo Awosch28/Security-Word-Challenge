@@ -49,14 +49,14 @@ class Language:
 class User(UserMixin, Base):
     '''Holds the attributes for a User'''
     __tablename__ = 'users'
-    user_id = Column(String(50), primary_key=True)
+    id = Column(String(50), primary_key=True)
     name = Column(String(50), unique=True)
     email = Column(String(120), unique=True)
     game_state = Column(String(120), unique=True)
     game_results = Column(String(120), unique=True)
 
-    def __init__(self, user_id=user_id, name=None, email=None, game_state=None, game_results=None):
-        self.user_id = user_id
+    def __init__(self, id=id, name=None, email=None, game_state=None, game_results=None):
+        self.id = id
         self.name = name
         self.email = email
         self.game_state = game_state
@@ -66,16 +66,16 @@ class User(UserMixin, Base):
         return f'<User {self.name!r}>'
     
     @classmethod
-    def get_by_id(cls, db_session, unique_id):
+    def get_by_id(cls, db_session, id):
         """Return a User instance by unique ID or None if not found."""
-        return db_session.query(cls).filter(cls.user_id == unique_id).first()
+        return db_session.query(cls).filter(cls.id == id).first()
 
     @classmethod
-    def create_user(cls, db_session, unique_id, name, email):
+    def create_user(cls, db_session, id, name, email):
         """Create a new user"""
-        user = cls.get_by_id(db_session, unique_id)
+        user = cls.get_by_id(db_session, id)
         if not user:
-            user = cls(unique_id, name, email, '', '')
+            user = cls(id, name, email, '', '')
             db_session.add(user)
             db_session.commit()
         return user
