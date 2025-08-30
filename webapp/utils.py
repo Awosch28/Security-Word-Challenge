@@ -9,6 +9,11 @@ import requests
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
+# For pulling Google info
+GOOGLE_DISCOVERY_URL = (
+    "https://accounts.google.com/.well-known/openid-configuration"
+)
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
