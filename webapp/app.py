@@ -94,9 +94,9 @@ login_manager.init_app(app)
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 @login_manager.user_loader
-def load_user(user_id):
+def load_user(db_session, user_id):
     '''Flask-Login helper to retrieve a user from our db'''
-    return User.get(user_id)
+    return User.get_by_id(db_session, user_id)
 
 ALLOWED_DOMAINS = ["gmail.com", "netskope.com"] # Only allow users from these domains
 
