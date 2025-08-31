@@ -55,6 +55,8 @@ class User(UserMixin, Base):
     name = Column(String(50))
     email = Column(String(120), unique=True)
 
+    results = relationship("Result", back_populates="user", cascade="all, delete-orphan")
+
     def __init__(self, id=id, name=None, email=None):
         self.id = id
         self.name = name
@@ -181,9 +183,7 @@ class Result(Base):
     @classmethod
     def create_result(cls, user_id):
         """Create a new result. Used after first attempt is submitted"""
-        result = cls.get_result(user_id)
-        if not result:
-            result = cls(id, user_id)
-            db_session.add(result)
-            db_session.commit()
+        result = cls(id, user_id)
+        db_session.add(result)
+        db_session.commit()
         return result
