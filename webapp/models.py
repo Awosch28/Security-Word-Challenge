@@ -157,7 +157,7 @@ class Result(Base):
         result =  db_session.query(cls).filter(cls.user_id == user_id).filter(cls.game_date_idx == game_date_idx).first()
 
         if not result:
-            result = create_result(user_id)
+            result = cls.create_result(user_id)
 
         result.tiles = json.loads(result.tiles)
         result.tile_classes = json.loads(result.tile_classes)
