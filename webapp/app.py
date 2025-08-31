@@ -257,7 +257,7 @@ def game():
     language = Language()
     logger.debug("daily word is: %s", language.daily_word)  # this should only be temporary
     # ... perform database operations ...
-    result = Result.get_result(current_user.user_id)
+    result = Result.get_result(user_id)
 
     return render_template("game.html", language=language, result=result)
 
@@ -268,7 +268,7 @@ def process_result():
     
     data = request.get_json() # Get data sent from JavaScript
     # Process data in python
-    user_id = urrent_user.userid
+    user_id = current_user.userid
     num_attempts = data['num_attempts']
     tiles = data['tiles']
     tile_classes = data['tile_classes']
