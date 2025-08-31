@@ -183,7 +183,7 @@ class Result(Base):
     @classmethod
     def create_result(cls, user_id):
         """Create a new result. Used after first attempt is submitted"""
-        result = cls(id, user_id)
+        result = cls(user_id)
         db_session.add(result)
         db_session.commit()
         return result
