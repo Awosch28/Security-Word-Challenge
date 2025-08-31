@@ -6,3 +6,10 @@ CREATE TABLE users (
     game_state TEXT NOT NULL,
     game_results TEXT NOT NULL
 );
+CREATE TABLE game_results (
+    result_id SERIAL PRIMARY KEY,
+    user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    game_date DATE NOT NULL,
+    num_attempts INT NOT NULL,
+    game_result VARCHAR(50),
+)

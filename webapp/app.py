@@ -41,7 +41,8 @@ from utils import (
 
 from models import (
     Language,
-    User
+    User,
+    Result
 )
 
 from database import (
@@ -51,23 +52,6 @@ from database import (
 
 # set random seed 42 for reproducibility (important to maintain stable word lists)
 random.seed(42)
-
-'''dictConfig({
-    'version': 1,
-    'formatters': {'default': {
-        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
-    }},
-    'handlers': {'wsgi': {
-        'class': 'logging.StreamHandler',
-        'stream': 'ext://flask.logging.wsgi_errors_stream',
-        'formatter': 'default'
-    }},
-    'root': {
-        'level': 'INFO',
-        'handlers': ['wsgi']
-    }
-})'''
-
 
 # Configuration
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
@@ -273,12 +257,37 @@ def game():
     language = Language()
     logger.debug("daily word is: %s", language.daily_word)  # this should only be temporary
     # ... perform database operations ...
+    result = get_result(current_user.user_id)
 
-    return render_template("game.html", language=language)
+    return render_template("game.html", language=language, result=result)
 
 # @app.route("/update-game-state")
 
-# @app.route("/update-game-result")
+@app.route("/update-game-result", methods=['POST'])
+def process_result():
+    
+    data = request.get_json() # Get data sent from JavaScript
+    # Process data in python
+    user_id = urrent_user.userid
+    num_attempts = data['num_attempts']
+    tiles = data['tiles']
+    tile_classes = data['tile_classes']
+    game_over = data['game_over']
+    game_lost = data['game_lost']
+    game_won = data['game_won']
+
+    return Result.update_result(user_id, num_attempts, board, game_over, game_lost, game_won)
+
+
+
+
+
+"""@app.route("/edit-emoji-board", methods=['POST'])
+def process_emoji_board():
+    data = request.get_json()  # Get data sent from JavaScript
+    # Process data in Python
+    board = data['emoji_board']
+"""
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, ssl_context="adhoc", debug=True)

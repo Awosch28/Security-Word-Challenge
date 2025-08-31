@@ -1,5 +1,6 @@
 from flask_login import UserMixin
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey, Date
+from sqlalchemy.orm import relationship
 from database import Base, db_session
 from utils import (
     get_todays_idx,
@@ -51,17 +52,13 @@ class User(UserMixin, Base):
     '''Holds the attributes for a User'''
     __tablename__ = 'users'
     id = Column(String(50), primary_key=True)
-    name = Column(String(50), unique=True)
+    name = Column(String(50))
     email = Column(String(120), unique=True)
-    game_state = Column(String(120), unique=True)
-    game_results = Column(String(120), unique=True)
 
-    def __init__(self, id=id, name=None, email=None, game_state=None, game_results=None):
+    def __init__(self, id=id, name=None, email=None):
         self.id = id
         self.name = name
         self.email = email
-        self.game_state = game_state
-        self.game_results = game_results
 
     def __repr__(self):
         return f'<User {self.name!r}>'
@@ -78,8 +75,115 @@ class User(UserMixin, Base):
         """Create a new user"""
         user = cls.get_user(id)
         if not user:
-            user = cls(id, name, email, '', '')
+            user = cls(id, name, email)
             db_session.add(user)
             db_session.commit()
         return user
 
+
+class Result(Base):
+    __tablename__ = 'results'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(String(50), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    game_date_idx = Column(Integer, nullable=False)
+    
+    # Using string for num_attempts because that is what the javascript used originally
+    num_attempts = Column(String(1), default="0", nullable=False)  
+
+    tiles = Column(String(200), 
+                    default='''
+                    [
+                        ["", "", "", "", ""],
+                        ["", "", "", "", ""],
+                        ["", "", "", "", ""],
+                        ["", "", "", "", ""],
+                        ["", "", "", "", ""],
+                        ["", "", "", "", ""]
+                    ]''',
+                    nullable=False)
+    tile_classes = Column(String(1200),
+                        default='''
+                        [
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"]
+                        ]''',
+                        nullable=False)
+    game_over = Column(Boolean, default=False, nullable=False)
+    game_lost = Column(Boolean, default=False, nullable=False)
+    game_won = Column(Boolean, default=False, nullable=False)
+
+    # relationship to user
+    user = relationship("User", back_populates="results")
+
+    def __init__(self, user_id):
+        self.user_id = user_id
+        self.game_date_idx = get_todays_idx()
+        self.num_attempts = "0"
+        self.tiles = '''
+                    [
+                        ["", "", "", "", ""],
+                        ["", "", "", "", ""],
+                        ["", "", "", "", ""],
+                        ["", "", "", "", ""],
+                        ["", "", "", "", ""],
+                        ["", "", "", "", ""]
+                    ]'''
+        self.tile_classes = '''
+                        [
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
+                            ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"]
+                        ]'''
+        self.game_over = False
+        self.game_lost = False
+        self.game_won = False
+
+    def __repr__(self):
+        return f'<Result {self.id!r}>'
+
+    @classmethod
+    def get_result(cls, user_id):
+        """Get board for user. Always pulls todays result"""
+        game_date_idx = get_todays_idx()
+        result =  db_session.query(cls).filter(cls.user_id == user_id).filter(cls.game_date_idx == game_date_idx).first()
+
+        if not result:
+            result = create_result(user_id)
+
+        result.tiles = json.loads(result.tiles)
+        result.tile_classes = json.loads(result.tile_classes)
+
+        return result
+        
+    @classmethod
+    def update_result(cls, user_id, num_attempts, tiles, tile_classes, game_over, game_lost, game_won):
+        """Update result with new board, result, etc"""
+        result = cls.get_result(user_id)
+        if result:
+            result.num_attempts = num_attempts
+            result.tiles = str(tiles)
+            result.tile_classes = str(tile_classes)
+            result.game_over = game_over
+            result.game_lost = game_lost
+            result.game_won = game_won
+
+            db_session.commit()
+
+        return result
+
+    @classmethod
+    def create_result(cls, user_id):
+        """Create a new result. Used after first attempt is submitted"""
+        result = cls.get_result(user_id)
+        if not result:
+            result = cls(id, user_id)
+            db_session.add(result)
+            db_session.commit()
+        return result

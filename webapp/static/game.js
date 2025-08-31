@@ -6,9 +6,7 @@ const app = Vue.createApp({
             active_row: 0,
             active_cell: 0,
             full_word_inputted: false,
-            game_over: false,
-            game_lost: false,
-            game_won: false,
+
 
             // these variables come from Jinja
             todays_word: todays_word,
@@ -17,6 +15,16 @@ const app = Vue.createApp({
             word_list_supplement: word_list_supplement,
             characters: characters,
             config: config,
+            
+            // result variables from Jinja
+            game_over: Boolean(game_over),
+            game_lost: Boolean(game_lost),
+            game_won: Boolean(game_won),
+            tiles: tiles,
+            tile_classes: tile_classes,
+            attempts: attempts,
+            result_id: result_id,
+
             // right_to_left: config.right_to_left == "true",  // this can probably just be set to false, because I don't see why anyone would default to right-to-left
             allow_any_word: false,
 
@@ -32,23 +40,6 @@ const app = Vue.createApp({
                 top: 0,
                 timeout: 0,
             },
-
-            tiles: [
-                ["", "", "", "", ""],
-                ["", "", "", "", ""],
-                ["", "", "", "", ""],
-                ["", "", "", "", ""],
-                ["", "", "", "", ""],
-                ["", "", "", "", ""],
-            ],
-            tile_classes: [
-                ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
-                ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
-                ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
-                ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
-                ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
-                ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
-            ],
 
             // have to spilt it in two because of righ to left text and this was the easiest way to do it 
             // ^ this suggests I may not even need these, will review later
@@ -75,8 +66,6 @@ const app = Vue.createApp({
             },
 
             emoji_board: "⬜⬜⬜⬜⬜\n",
-            attempts: "0",
-
             stats: {},
         }
     },
@@ -320,6 +309,31 @@ const app = Vue.createApp({
                     this.gameLost();
                 }
 
+                dataToSend = {
+                user_id: this.user_id,
+                num_attempts: this.num_attempts,
+                tiles: this.tiles,
+                tile_classes: this.tile_classes,
+                game_over: this.game_over,
+                game_lost: this.game_lost,
+                game_won: this.game_won
+                }
+
+                fetch('/update-game-result', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(dataToSend)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Response from Flask", data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                })
+
             } else if ((key === "Backspace" || key === "Delete" || key === "⌫") && this.active_cell > 0) {
                 // set current active cell to empty and move backwards one
                 this.tiles[this.active_row][this.active_cell - 1] = "";
@@ -335,6 +349,8 @@ const app = Vue.createApp({
                     }
                 }
             }
+            
+
             this.showTiles();
             this.saveToLocalStorage();
         },

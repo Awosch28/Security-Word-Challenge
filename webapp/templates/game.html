@@ -27,6 +27,15 @@
             console.log("Character Set: " + characters);
             const todays_idx = "{{ language.todays_idx }}";
             const todays_word = "{{ language.daily_word }}";
+
+            var game_over = "{{ result.game_over }}"
+            var game_lost = "{{ result.game_lost }}"
+            var game_won = "{{ result.game_won }}"
+            var tiles = "{{ result.tiles }}"
+            var tile_classes = "{{ result.tile_classes }}"
+            var attempts = "{{ result.attempts }}"
+            var result_id = "{{ result.result_id }}"
+
         </script>
     </head>
 
@@ -139,7 +148,7 @@
                             <p class="text-sm">{{ language.config.help.text_1_2 }}</p>
                             <p class="text-sm">{{ language.config.help.text_1_3 }}</p>
 
-                            <div class=border-t-2 border-gray-300></div>
+                            <div class="border-t-2 border-gray-300"></div>
                             <div class="justify-center items-center flex flex-col gap-2">
                                 <h2 class="text-md font-semibold text-gray-900">{{ language.config.help.title_2 }}</h2>
 
@@ -196,7 +205,7 @@
                                     language.config.help.text_2_3 }}</p>
                             </div>
 
-                            <div class=border-t-2 border-gray-300></div>
+                            <div class="border-t-2 border-gray-300"></div>
 
                             <button class="uppercase font-bold text-sm tracking-wider"
                                 v-on:click="showHelpModal = !showHelpModal">{{ language.config.help.close }}
