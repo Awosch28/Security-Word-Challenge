@@ -257,7 +257,7 @@ def game():
     language = Language()
     logger.debug("daily word is: %s", language.daily_word)  # this should only be temporary
     # ... perform database operations ...
-    result = Result.get_result(user_id)
+    result = Result.get_result(current_user.id)
 
     return render_template("game.html", language=language, result=result)
 
