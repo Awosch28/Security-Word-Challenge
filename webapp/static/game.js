@@ -20,8 +20,8 @@ const app = Vue.createApp({
             game_over: Boolean(game_over),
             game_lost: Boolean(game_lost),
             game_won: Boolean(game_won),
-            tiles: tiles,
-            tile_classes: tile_classes,
+            tiles: JSON.parse(tiles),
+            tile_classes: JSON.parse(tile_classes),
             attempts: attempts,
             result_id: result_id,
 
