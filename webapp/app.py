@@ -11,7 +11,7 @@ from flask import (
     render_template,
     redirect,
     url_for,
-    session,  # needed for Google sign-in
+    # session,  # needed for Google sign-in
     request,
 )
 from flask_login import (

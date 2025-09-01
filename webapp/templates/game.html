@@ -31,8 +31,8 @@
             var game_over = "{{ result.game_over }}"
             var game_lost = "{{ result.game_lost }}"
             var game_won = "{{ result.game_won }}"
-            var tiles = "{{ result.tiles }}"
-            var tile_classes = "{{ result.tile_classes }}"
+            var tiles = "{{ result.tiles | tojson | safe }}"
+            var tile_classes = "{{ result.tile_classes | tojson | safe }}"
             var attempts = "{{ result.attempts }}"
             var result_id = "{{ result.result_id }}"
 
