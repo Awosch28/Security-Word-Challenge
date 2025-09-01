@@ -4,10 +4,6 @@ import json
 import logging
 import os
 import random
-import sqlite3
-
-# logging untility
-from logging.config import dictConfig
 
 # Third-party libraries
 from flask import (
@@ -82,7 +78,7 @@ def load_user(user_id):
     '''Flask-Login helper to retrieve a user from our db'''
     try:
         user = User.get_user(user_id)
-        return user 
+        return user
     except Exception as e:
         logger.debug("Error loading user: %s", e)
 
@@ -131,8 +127,7 @@ def index():
                 "<div><p>Google Profile Picture:</p>"
                 '<a class="button" href="/logout">Logout</a>'
             )
-        else:
-            return '<a class="button" href="/login">Google Login</a>'
+        return '<a class="button" href="/login">Google Login</a>'
     except Exception as e:
         logger.info("Error rendering index page: %s", e)
         return render_template("error.html", message=f"An unexpected error occurred: {e}"), 500
@@ -221,16 +216,7 @@ def callback():
     logger.debug("domain: %s", email.split("@")[-1])
     if email.split("@")[-1] not in ALLOWED_DOMAINS:
         return "Access denied: you must use a company email address.", 403
-
-    # Doesn't exist? Add it to the databse.
-    ''' if not User.query.filter(User.user_id == unique_id).first():
-        # convert unique_id to int
-        u = User(unique_id, name, email, '', '')
-        db_session.add(u)
-        db_session.commit()
-    else:
-        u = User(unique_id, name, email, User.game_state, User.game_results)'''
-    
+  
     user = User.create_user(unique_id, name, email)
 
     # Begin user session by logging the user in
@@ -265,7 +251,7 @@ def game():
 
 @app.route("/update-game-result", methods=['POST'])
 def process_result():
-    
+    '''do necessary conversations, then update record'''
     data = request.get_json() # Get data sent from JavaScript
     # Process data in python
     user_id = current_user.userid
@@ -276,18 +262,8 @@ def process_result():
     game_lost = data['game_lost']
     game_won = data['game_won']
 
-    return Result.update_result(user_id, num_attempts, board, game_over, game_lost, game_won)
+    return Result.update_result(user_id, num_attempts, tiles, tile_classes, game_over, game_lost, game_won)
 
-
-
-
-
-"""@app.route("/edit-emoji-board", methods=['POST'])
-def process_emoji_board():
-    data = request.get_json()  # Get data sent from JavaScript
-    # Process data in Python
-    board = data['emoji_board']
-"""
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, ssl_context="adhoc", debug=True)

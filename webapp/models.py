@@ -1,5 +1,8 @@
+'''Language class and database tables'''
+import json
+
 from flask_login import UserMixin
-from sqlalchemy import Column, Integer, String, ForeignKey, Date, Boolean
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from database import Base, db_session
 from utils import (
@@ -48,6 +51,7 @@ class Language:
                 self.keyboard[-2].insert(-1, popped_c)
 
 
+
 class User(UserMixin, Base):
     '''Holds the attributes for a User'''
     __tablename__ = 'users'
@@ -84,17 +88,17 @@ class User(UserMixin, Base):
 
 
 class Result(Base):
+    '''Stores game results'''
     __tablename__ = 'results'
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(String(50), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     game_date_idx = Column(Integer, nullable=False)
-    
+
     # Using string for num_attempts because that is what the javascript used originally
     num_attempts = Column(String(1), default="0", nullable=False)  
 
-    tiles = Column(String(200), 
-                    default='''
-                    [
+    tiles = Column(String(200),
+                    default='''[
                         ["", "", "", "", ""],
                         ["", "", "", "", ""],
                         ["", "", "", "", ""],
