@@ -33,8 +33,8 @@
             var game_won = "{{ result.game_won }}"
             var tiles = JSON.parse('{{ result.tiles | tojson | safe }}')
             var tile_classes = JSON.parse('{{ result.tile_classes | tojson | safe }}')
-            var attempts = "{{ result.attempts }}"
-            var result_id = "{{ result.result_id }}"
+            var attempts = "{{ result.num_attempts }}"
+            var result_id = "{{ result.id }}"
 
         </script>
     </head>
