@@ -110,7 +110,7 @@ const app = Vue.createApp({
         if (localStorage.getItem("game_results") === null) {
             this.game_results = {};
             this.game_results[this.config.language_code] = [];
-            localStorage.setItem("game_result", JSON.stringify(this.game_results));
+            localStorage.setItem("game_results", JSON.stringify(this.game_results));
         } else {
             this.game_results = JSON.parse(localStorage.getItem("game_results"));
             if (!this.game_results[this.config.language_code]) {
