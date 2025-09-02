@@ -154,27 +154,6 @@ const app = Vue.createApp({
             this.time_until_next_day = this.get_time_until_next_day();
         }, 1000);*/
         // Attach the safe keyboard handler
-        window.addEventListener('keydown', (event) => {
-            const active = document.activeElement;
-
-            // If the user is typing in a text input, textarea, or contenteditable, do nothing
-            if (active &&
-                (active.tagName === 'INPUT' ||
-                active.tagName === 'TEXTAREA' ||
-                active.isContentEditable)) {
-                return;
-            }
-
-            // If a button (or tile) has focus, blur it so it doesn’t stay selected
-            if (active &&
-                (active.tagName === 'BUTTON' ||
-                active.classList.contains('tile-button'))) {
-                active.blur();
-            }
-
-            // Forward the event to your keyDown handler
-            this.keyDown(event);
-        });
         
         this.loadFromLocalStorage();
         this.showTiles();
