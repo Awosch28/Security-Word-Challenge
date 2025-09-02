@@ -118,30 +118,19 @@ const app = Vue.createApp({
             }
         }
 
-        dataToSend = {
-                user_id: this.user_id,
-                attempts: this.attempts,
-                tiles: this.tiles,
-                tile_classes: this.tile_classes,
-                game_over: this.game_over,
-                game_lost: this.game_lost,
-                game_won: this.game_won
-                }
-
-                fetch('/get-game-result', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(dataToSend)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Response from Flask", data);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                })
+        fetch('/get-game-result', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Response from Flask", data);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        })
 
         //calculate states
         this.stats = this.calculateStats(this.config.language_code);
