@@ -152,7 +152,7 @@ def login():
     )
 
     logger.debug("request_uri: %s", request_uri)
-    return redirect(url_for("game"))
+    return redirect(request_uri)
 
 
 @app.route("/login/callback")
@@ -222,8 +222,8 @@ def callback():
     # Begin user session by logging the user in
     login_user(user)
 
-    # Send user back to homepage
-    return redirect(url_for("index"))
+    # Send user to game
+    return redirect(url_for("game"))
 
 
 @app.route("/logout")
