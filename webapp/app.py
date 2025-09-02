@@ -276,7 +276,7 @@ def process_result():
 @app.route("/get-game-result", methods=['GET'])
 def get_result():
     '''get today's result for player'''
-    user_id = current_user.user_id
+    user_id = current_user.id
 
     return Result.get_result(user_id)
 
