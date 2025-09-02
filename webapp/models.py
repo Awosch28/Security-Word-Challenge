@@ -166,12 +166,17 @@ class Result(Base):
         result.tiles = json.loads(result.tiles)
         result.tile_classes = json.loads(result.tile_classes)
 
+        logger.debug("get-result: %s", result)
+
         return result
         
     @classmethod
     def update_result(cls, user_id, num_attempts, tiles, tile_classes, game_over, game_lost, game_won):
         """Update result with new board, result, etc"""
         result = cls.get_result(user_id)
+        
+        logger.debug("update-result: %s", result)
+        
         if result:
             result.num_attempts = num_attempts
             result.tiles = str(tiles)
