@@ -262,7 +262,7 @@ def process_result():
     data = request.get_json() # Get data sent from JavaScript
     logger.debug("update-game-result: %s", data)
     # Process data in python
-    user_id = current_user.user_id
+    user_id = current_user.id
     num_attempts = data['num_attempts']
     tiles = data['tiles']
     tile_classes = data['tile_classes']
