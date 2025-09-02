@@ -99,7 +99,7 @@ const app = Vue.createApp({
     beforeCreate() {
         // if http redirect to same url in https
         if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1" && window.location.protocol !== "https:" && window.location.hostname !== "192.168.1.230") {
-            windows.location.href = "https://" + window.location.hostname + window.location.pathname;
+            window.location.href = "https://" + window.location.hostname + window.location.pathname;
         }
     },
     created() {
@@ -118,6 +118,31 @@ const app = Vue.createApp({
             }
         }
 
+        dataToSend = {
+                user_id: this.user_id,
+                num_attempts: this.num_attempts,
+                tiles: this.tiles,
+                tile_classes: this.tile_classes,
+                game_over: this.game_over,
+                game_lost: this.game_lost,
+                game_won: this.game_won
+                }
+
+                fetch('/update-game-result', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(dataToSend)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Response from Flask", data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                })
+
         //calculate states
         this.stats = this.calculateStats(this.config.language_code);
 
@@ -128,6 +153,29 @@ const app = Vue.createApp({
         /*setInterval(() => {
             this.time_until_next_day = this.get_time_until_next_day();
         }, 1000);*/
+        // Attach the safe keyboard handler
+        window.addEventListener('keydown', (event) => {
+            const active = document.activeElement;
+
+            // If the user is typing in a text input, textarea, or contenteditable, do nothing
+            if (active &&
+                (active.tagName === 'INPUT' ||
+                active.tagName === 'TEXTAREA' ||
+                active.isContentEditable)) {
+                return;
+            }
+
+            // If a button (or tile) has focus, blur it so it doesn’t stay selected
+            if (active &&
+                (active.tagName === 'BUTTON' ||
+                active.classList.contains('tile-button'))) {
+                active.blur();
+            }
+
+            // Forward the event to your keyDown handler
+            this.keyDown(event);
+        });
+        
         this.loadFromLocalStorage();
         this.showTiles();
 
@@ -274,7 +322,7 @@ const app = Vue.createApp({
         },
         keyDown(event) {
             key = event.key;
-            document.activeElement.blur();  // unfocuses activeElements so that clicked buttons don't stay "in focus"
+            // document.activeElement.blur();  // unfocuses activeElements so that clicked buttons don't stay "in focus"
             if (key === "Escape") { // QoL
                 this.showHelpModal = false;
                 this.show_stats_modal = false;
