@@ -166,7 +166,10 @@ class Result(Base):
         result.tiles = json.loads(result.tiles)
         result.tile_classes = json.loads(result.tile_classes)
 
-        logger.debug("get-result: %s", result)
+        logger.debug("get-result: %s", result.id)
+        logger.debug("get-result: %s", result.game_over)
+        logger.debug("get-result: %s", result.game_lost)
+        logger.debug("get-result: %s", result.game_won)
 
         return result
         

@@ -253,6 +253,7 @@ def game():
 def process_result():
     '''do necessary conversations, then update record'''
     data = request.get_json() # Get data sent from JavaScript
+    logger.debug("get-game-result: %s", data)
     # Process data in python
     user_id = current_user.userid
     num_attempts = data['num_attempts']
@@ -268,6 +269,7 @@ def process_result():
 @app.route("/get-game-result", methods=['POST'])
 def get_result():
     '''get today's result for player'''
+    logger.debug("get-game-result: %s", data)
     data = request.get_json()
     user_id = data['user_id']
 
