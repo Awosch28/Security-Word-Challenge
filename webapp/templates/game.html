@@ -28,11 +28,11 @@
             const todays_idx = "{{ language.todays_idx }}";
             const todays_word = "{{ language.daily_word }}";
 
-            var game_over = "{{ result.game_over | tojson | safe}}"
-            var game_lost = "{{ result.game_lost | tojson | safe}}"
-            var game_won = "{{ result.game_won | tojson | safe}}"
-            var tiles = JSON.parse('{{ result.tiles | tojson | safe }}')
-            var tile_classes = JSON.parse('{{ result.tile_classes | tojson | safe }}')
+            let game_over = "{{ result.game_over | tojson }}"
+            var game_lost = "{{ result.game_lost | tojson }}"
+            var game_won = "{{ result.game_won | tojson }}"
+            var tiles = JSON.parse('{{ result.tiles | tojson }}')
+            var tile_classes = JSON.parse('{{ result.tile_classes | tojson }}')
             var attempts = "{{ result.num_attempts }}"
             var result_id = "{{ result.id }}"
 
