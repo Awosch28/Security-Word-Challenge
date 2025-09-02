@@ -249,7 +249,10 @@ def game():
     logger.debug("get-result: %s", result.game_lost)
     logger.debug("get-result: %s", result.game_won)
 
-    return render_template("game.html", language=language, result=result)
+    return render_template("game.html", language=language, result=result or {
+        "result.game_over": False
+        }
+    )
 
 # @app.route("/update-game-state")
 
