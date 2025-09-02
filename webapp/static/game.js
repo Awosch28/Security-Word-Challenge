@@ -17,9 +17,9 @@ const app = Vue.createApp({
             config: config,
             
             // result variables from Jinja
-            game_over: Boolean(game_over),
-            game_lost: Boolean(game_lost),
-            game_won: Boolean(game_won),
+            game_over: game_over,
+            game_lost: game_lost,
+            game_won: game_won,
             tiles: tiles,
             tile_classes: tile_classes,
             attempts: attempts,
@@ -129,7 +129,7 @@ const app = Vue.createApp({
                 }
 
                 fetch('/get-game-result', {
-                    method: 'GET',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
