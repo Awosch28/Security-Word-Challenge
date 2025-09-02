@@ -152,7 +152,7 @@ def login():
     )
 
     logger.debug("request_uri: %s", request_uri)
-    return redirect(request_uri)
+    return redirect(url_for("game"))
 
 
 @app.route("/login/callback")
@@ -265,12 +265,14 @@ def process_result():
     return Result.update_result(user_id, num_attempts, tiles, tile_classes, game_over, game_lost, game_won)
 
 
-@app.route("/get-game-result", methods=['GET'])
+@app.route("/get-game-result", methods=['POST'])
 def get_result():
     '''get today's result for player'''
     data = request.get_json()
     user_id = data['user_id']
-    
+
+    return Result.get_result(user_id)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, ssl_context="adhoc", debug=True)

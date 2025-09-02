@@ -128,8 +128,8 @@ const app = Vue.createApp({
                 game_won: this.game_won
                 }
 
-                fetch('/update-game-result', {
-                    method: 'POST',
+                fetch('/get-game-result', {
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
