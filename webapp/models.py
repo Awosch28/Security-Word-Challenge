@@ -55,33 +55,33 @@ class Language:
 class User(UserMixin, Base):
     '''Holds the attributes for a User'''
     __tablename__ = 'users'
-    id = Column(String(50), primary_key=True)
+    user_id = Column(String(50), primary_key=True)
     name = Column(String(50))
     email = Column(String(120), unique=True)
 
     results = relationship("Result", back_populates="user", cascade="all, delete-orphan")
 
-    def __init__(self, id=id, name=None, email=None):
-        self.id = id
+    def __init__(self, user_id=user_id, name=None, email=None):
+        self.user_id = user_id
         self.name = name
         self.email = email
 
     def __repr__(self):
         return f'<User {self.name!r}>'
-    
+  
     @classmethod
-    def get_user(cls, id):
+    def get_user(cls, user_id):
         """Return a User instance by unique ID or None if not found."""
-        user = db_session.query(cls).filter(cls.id == id).first()
+        user = db_session.query(cls).filter(cls.user_id == user_id).first()
         logger.debug(user)
         return user
 
     @classmethod
-    def create_user(cls, id, name, email):
+    def create_user(cls, user_id, name, email):
         """Create a new user"""
-        user = cls.get_user(id)
+        user = cls.get_user(user_id)
         if not user:
-            user = cls(id, name, email)
+            user = cls(user_id, name, email)
             db_session.add(user)
             db_session.commit()
         return user
@@ -90,8 +90,8 @@ class User(UserMixin, Base):
 class Result(Base):
     '''Stores game results'''
     __tablename__ = 'results'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String(50), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    result_id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(String(50), ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False)
     game_date_idx = Column(Integer, nullable=False)
 
     # Using string for num_attempts because that is what the javascript used originally
@@ -152,7 +152,7 @@ class Result(Base):
         self.game_won = False
 
     def __repr__(self):
-        return f'<Result {self.id!r}>'
+        return f'<Result {self.result_id!r}>'
 
     @classmethod
     def get_result(cls, user_id):
@@ -166,7 +166,7 @@ class Result(Base):
         result.tiles = json.loads(result.tiles)
         result.tile_classes = json.loads(result.tile_classes)
 
-        logger.debug("get-result: %s", result.id)
+        logger.debug("get-result: %s", result.result_id)
         logger.debug("get-result: %s", result.game_over)
         logger.debug("get-result: %s", result.game_lost)
         logger.debug("get-result: %s", result.game_won)
@@ -178,7 +178,7 @@ class Result(Base):
         """Update result with new board, result, etc"""
         result = cls.get_result(user_id)
         
-        logger.debug("get-result: %s", result.id)
+        logger.debug("get-result: %s", result.result_id)
         logger.debug("get-result: %s", result.game_over)
         logger.debug("get-result: %s", result.game_lost)
         logger.debug("get-result: %s", result.game_won)

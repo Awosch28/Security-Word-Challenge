@@ -290,7 +290,7 @@ const app = Vue.createApp({
         },
         keyDown(event) {
             key = event.key;
-            // document.activeElement.blur();  // unfocuses activeElements so that clicked buttons don't stay "in focus"
+            document.activeElement.blur();  // unfocuses activeElements so that clicked buttons don't stay "in focus"
             if (key === "Escape") { // QoL
                 this.showHelpModal = false;
                 this.show_stats_modal = false;

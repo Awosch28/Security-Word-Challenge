@@ -278,6 +278,9 @@ def get_result():
     '''get today's result for player'''
     user_id = current_user.id
 
+    # result = Result.get_result(user_id)
+    
+
     return Result.get_result(user_id)
 
 
