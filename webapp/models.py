@@ -177,7 +177,7 @@ class Result(Base):
         logger.debug("get-result: %s", result.game_won)
 
         return result
-       
+
     @classmethod
     def update_result(cls, user_id, num_attempts, tiles, tile_classes, game_over, game_lost, game_won):
         """Update result with new board, result, etc"""
