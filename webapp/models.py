@@ -68,7 +68,12 @@ class User(UserMixin, Base):
 
     def __repr__(self):
         return f'<User {self.name!r}>'
-  
+
+    def get_id(self):
+        """Return the user's primary key as a string.
+        Overrides default get_id() of UserMixin class"""
+        return str(self.user_id)
+
     @classmethod
     def get_user(cls, user_id):
         """Return a User instance by unique ID or None if not found."""
@@ -95,7 +100,7 @@ class Result(Base):
     game_date_idx = Column(Integer, nullable=False)
 
     # Using string for num_attempts because that is what the javascript used originally
-    num_attempts = Column(String(1), default="0", nullable=False)  
+    num_attempts = Column(String(1), default="0", nullable=False)
 
     tiles = Column(String(200),
                     default='''[
@@ -172,17 +177,17 @@ class Result(Base):
         logger.debug("get-result: %s", result.game_won)
 
         return result
-        
+       
     @classmethod
     def update_result(cls, user_id, num_attempts, tiles, tile_classes, game_over, game_lost, game_won):
         """Update result with new board, result, etc"""
         result = cls.get_result(user_id)
-        
+
         logger.debug("get-result: %s", result.result_id)
         logger.debug("get-result: %s", result.game_over)
         logger.debug("get-result: %s", result.game_lost)
         logger.debug("get-result: %s", result.game_won)
-        
+
         if result:
             result.num_attempts = num_attempts
             result.tiles = str(tiles)
