@@ -15,13 +15,39 @@ steps:
 - name: deploy
   commands:
   - pip3 install -r requirements.txt
-  - python3 webapp/app.py
-  - python3 webapp/app.py
+  - gunicorn --bind 0.0.0.0:5000 --chdir webapp app:app 
   environment:
     GOOGLE_CLIENT_ID:
-      from_secret: wordle_google_client_id
+      from_secret: wordle_google_client_id_stg
     GOOGLE_CLIENT_SECRET:
-      from_secret: wordle_google_client_secret
+      from_secret: wordle_google_client_secret_stg
 
 node:
   group: wordle
+
+---
+########################
+# Deploy to Production #
+########################
+
+kind: pipeline
+type: exec
+name: deploy-production
+
+trigger:
+  event: 
+  - promote
+  target:
+  - production
+
+steps:
+# Deploy Bot on Python 3.12
+- name: deploy
+  commands:
+    - pip3 install -r requirements.txt
+    - gunicorn --daemon --bind 0.0.0.0:8000 --chdir webapp app:app 
+  environment:
+    GOOGLE_CLIENT_ID:
+      from_secret: wordle_google_client_id_prod
+    GOOGLE_CLIENT_SECRET:
+      from_secret: wordle_google_client_secret_prod
