@@ -243,7 +243,7 @@ def game():
     language = Language()
     logger.debug("daily word is: %s", language.daily_word)  # this should only be temporary
     # ... perform database operations ...
-    result = Result.get_result(current_user.id)
+    result = Result.get_result(current_user.user_id)
     logger.debug("get-result: %s", result.result_id)
     logger.debug("get-result: %s", result.game_over)
     logger.debug("get-result: %s", result.game_lost)
@@ -262,7 +262,7 @@ def process_result():
     data = request.get_json() # Get data sent from JavaScript
     logger.debug("update-game-result: %s", data)
     # Process data in python
-    user_id = current_user.id
+    user_id = current_user.user_id
     num_attempts = data['num_attempts']
     tiles = data['tiles']
     tile_classes = data['tile_classes']
@@ -276,7 +276,7 @@ def process_result():
 @app.route("/get-game-result", methods=['GET'])
 def get_result():
     '''get today's result for player'''
-    user_id = current_user.id
+    user_id = current_user.user_id
 
     # result = Result.get_result(user_id)
     
