@@ -244,7 +244,7 @@ def game():
     logger.debug("daily word is: %s", language.daily_word)  # this should only be temporary
     # ... perform database operations ...
     result = Result.get_result(current_user.id)
-    logger.debug("get-result: %s", result.id)
+    logger.debug("get-result: %s", result.result_id)
     logger.debug("get-result: %s", result.game_over)
     logger.debug("get-result: %s", result.game_lost)
     logger.debug("get-result: %s", result.game_won)
