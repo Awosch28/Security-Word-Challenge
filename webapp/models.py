@@ -160,16 +160,17 @@ class Result(Base):
         return f'<Result {self.result_id!r}>'
 
     def to_dict(self):
+        """Turns Result to dictionary"""
         return {
             "result_id": self.result_id,
             "user_id": self.user_id,
             "game_date_idx": self.game_date_idx,
             "num_attempts": self.num_attempts,
             "tiles": self.tiles,
-            "tiles_classes": self.tiles_classes,
+            "tile_classes": self.tile_classes,
             "game_over": self.game_over,
             "game_lost": self.game_lost,
-            "game_won": self.game_won
+            "game_won": self.game_won,
         }
 
     @classmethod
