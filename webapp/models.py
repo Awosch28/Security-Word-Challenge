@@ -191,9 +191,6 @@ class Result(Base):
         # logger.debug("get-result emoji_board: %s", result.emoji_board)
         logger.debug("get-result attempts: %s", result.num_attempts)
 
-        result.tiles = json.loads(result.tiles)
-        result.tile_classes = json.loads(result.tile_classes)
-
         return result
 
     @classmethod
