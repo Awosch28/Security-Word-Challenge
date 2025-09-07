@@ -31,8 +31,8 @@
             var game_over = JSON.parse('{{result.game_over | tojson | safe}}');
             var game_lost = JSON.parse('{{result.game_lost | tojson | safe}}');
             var game_won = JSON.parse('{{result.game_won | tojson | safe}}');
-            var tiles = {{ result.tiles | tojson | safe }};
-            var tile_classes = {{ result.tile_classes | tojson | safe }};
+            var tiles = result.tiles
+            var tile_classes = result.tile_classes
             var attempts = "{{ result.num_attempts }}";
             var result_id = "{{ result.id }}";
 
