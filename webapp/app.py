@@ -263,7 +263,7 @@ def process_result():
     logger.debug("update-game-result: %s", data)
     # Process data in python
     user_id = current_user.user_id
-    num_attempts = data['num_attempts']
+    num_attempts = data['attempts']
     tiles = data['tiles']
     tile_classes = data['tile_classes']
     game_over = data['game_over']
