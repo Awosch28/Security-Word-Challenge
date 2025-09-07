@@ -141,7 +141,7 @@ class Result(Base):
                         ["", "", "", "", ""],
                         ["", "", "", "", ""],
                         ["", "", "", "", ""]
-                    ],
+                    ]
         self.tile_classes = [
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
@@ -149,7 +149,7 @@ class Result(Base):
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"]
-                        ],
+                        ]
         self.game_over = False
         self.game_lost = False
         self.game_won = False
