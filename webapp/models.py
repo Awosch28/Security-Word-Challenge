@@ -134,24 +134,22 @@ class Result(Base):
         self.user_id = user_id
         self.game_date_idx = get_todays_idx()
         self.num_attempts = "0"
-        self.tiles = '''
-                    [
+        self.tiles = [
                         ["", "", "", "", ""],
                         ["", "", "", "", ""],
                         ["", "", "", "", ""],
                         ["", "", "", "", ""],
                         ["", "", "", "", ""],
                         ["", "", "", "", ""]
-                    ]'''
-        self.tile_classes = '''
-                        [
+                    ],
+        self.tile_classes = [
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"]
-                        ]'''
+                        ],
         self.game_over = False
         self.game_lost = False
         self.game_won = False
