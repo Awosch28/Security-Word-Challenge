@@ -31,10 +31,10 @@
             var game_over = JSON.parse('{{result.game_over | tojson | safe}}');
             var game_lost = JSON.parse('{{result.game_lost | tojson | safe}}');
             var game_won = JSON.parse('{{result.game_won | tojson | safe}}');
-            var tiles = JSON.parse('{{result.tiles | tojson | safe}}');
-            var tile_classes = JSON.parse('{{result.tile_classes | tojson | safe}}');
-            var attempts = "{{ result.num_attempts }}"
-            var result_id = "{{ result.id }}"
+            var tiles = {{ result.tiles | tojson | safe }};
+            var tile_classes = {{ result.tile_classes | tojson | safe }};
+            var attempts = "{{ result.num_attempts }}";
+            var result_id = "{{ result.id }}";
 
         </script>
     </head>
