@@ -168,13 +168,19 @@ class Result(Base):
         if not result:
             result = cls.create_result(user_id)
 
+        logger.debug("get-result tiles: %s", result.tiles)
+        logger.debug("get-result tile_classes: %s", result.tile_classes)
+        logger.debug("get-result result_id: %s", result.result_id)
+        logger.debug("get-result game_over: %s", result.game_over)
+        logger.debug("get-result game_lost: %s", result.game_lost)
+        logger.debug("get-result game_won: %s", result.game_won)
+        # logger.debug("get-result emoji_board: %s", result.emoji_board)
+        logger.debug("get-result attempts: %s", result.num_attempts)
+
         result.tiles = json.loads(result.tiles)
         result.tile_classes = json.loads(result.tile_classes)
 
-        logger.debug("get-result: %s", result.result_id)
-        logger.debug("get-result: %s", result.game_over)
-        logger.debug("get-result: %s", result.game_lost)
-        logger.debug("get-result: %s", result.game_won)
+
 
         return result
 
