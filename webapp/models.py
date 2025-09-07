@@ -134,6 +134,7 @@ class Result(Base):
         self.user_id = user_id
         self.game_date_idx = get_todays_idx()
         self.num_attempts = "0"
+        # stringified because that is how sqlite likes it
         self.tiles = [
                         ["", "", "", "", ""],
                         ["", "", "", "", ""],
@@ -141,7 +142,7 @@ class Result(Base):
                         ["", "", "", "", ""],
                         ["", "", "", "", ""],
                         ["", "", "", "", ""]
-                    ]
+                        ]
         self.tile_classes = [
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
@@ -149,7 +150,7 @@ class Result(Base):
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                             ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"]
-                        ]
+                            ]
         self.game_over = False
         self.game_lost = False
         self.game_won = False
@@ -180,14 +181,20 @@ class Result(Base):
         if not result:
             result = cls.create_result(user_id)
 
-        logger.debug("get-result tiles: %s", result.tiles)
-        logger.debug("get-result tile_classes: %s", result.tile_classes)
+        logger.debug("get-result tiles pre-loads: %s", result.tiles)
+        logger.debug("get-result tile_classes pre-loads: %s", result.tile_classes)
         logger.debug("get-result result_id: %s", result.result_id)
         logger.debug("get-result game_over: %s", result.game_over)
         logger.debug("get-result game_lost: %s", result.game_lost)
         logger.debug("get-result game_won: %s", result.game_won)
         # logger.debug("get-result emoji_board: %s", result.emoji_board)
         logger.debug("get-result attempts: %s", result.num_attempts)
+
+        result.tiles = json_loads(result.tiles)
+        result.tile_classes = json_loads(result.tile_classes)
+
+        logger.debug("get-result tiles post-loads: %s", result.tiles)
+        logger.debug("get-result tile_classes post-loads: %s", result.tile_classes)
 
         return result
 
@@ -203,8 +210,8 @@ class Result(Base):
 
         if result:
             result.num_attempts = num_attempts
-            result.tiles = str(tiles)
-            result.tile_classes = str(tile_classes)
+            result.tiles = json_dumps(tiles)
+            result.tile_classes = json_dumps(tile_classes)
             result.game_over = game_over
             result.game_lost = game_lost
             result.game_won = game_won
@@ -217,6 +224,8 @@ class Result(Base):
     def create_result(cls, user_id):
         """Create a new result. Used after first attempt is submitted"""
         result = cls(user_id)
+        result.tiles = json_dumps(result.tiles)
+        result.tile_classes = json_dumps(result.tile_classes)
         db_session.add(result)
         db_session.commit()
         return result

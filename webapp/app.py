@@ -42,7 +42,7 @@ from models import (
 )
 
 from database import (
-    db_session, 
+    db_session,
     init_db
 )
 
@@ -216,7 +216,7 @@ def callback():
     logger.debug("domain: %s", email.split("@")[-1])
     if email.split("@")[-1] not in ALLOWED_DOMAINS:
         return "Access denied: you must use a company email address.", 403
-  
+
     user = User.create_user(unique_id, name, email)
 
     # Begin user session by logging the user in
@@ -244,10 +244,10 @@ def game():
     logger.debug("daily word is: %s", language.daily_word)  # this should only be temporary
     # ... perform database operations ...
     result = Result.get_result(current_user.user_id)
-    logger.debug("get-result: %s", result.result_id)
-    logger.debug("get-result: %s", result.game_over)
-    logger.debug("get-result: %s", result.game_lost)
-    logger.debug("get-result: %s", result.game_won)
+    logger.debug("/game: %s", result.result_id)
+    logger.debug("/game: %s", result.game_over)
+    logger.debug("/game: %s", result.game_lost)
+    logger.debug("/game: %s", result.game_won)
 
     return render_template("game.html", language=language, result=result or {
         "result.game_over": False
