@@ -190,8 +190,8 @@ class Result(Base):
         # logger.debug("get-result emoji_board: %s", result.emoji_board)
         logger.debug("get-result attempts: %s", result.num_attempts)
 
-        result.tiles = json_loads(result.tiles)
-        result.tile_classes = json_loads(result.tile_classes)
+        result.tiles = json.loads(result.tiles)
+        result.tile_classes = json.loads(result.tile_classes)
 
         logger.debug("get-result tiles post-loads: %s", result.tiles)
         logger.debug("get-result tile_classes post-loads: %s", result.tile_classes)
@@ -210,8 +210,8 @@ class Result(Base):
 
         if result:
             result.num_attempts = num_attempts
-            result.tiles = json_dumps(tiles)
-            result.tile_classes = json_dumps(tile_classes)
+            result.tiles = json.dumps(tiles)
+            result.tile_classes = json.dumps(tile_classes)
             result.game_over = game_over
             result.game_lost = game_lost
             result.game_won = game_won
@@ -224,8 +224,8 @@ class Result(Base):
     def create_result(cls, user_id):
         """Create a new result. Used after first attempt is submitted"""
         result = cls(user_id)
-        result.tiles = json_dumps(result.tiles)
-        result.tile_classes = json_dumps(result.tile_classes)
+        result.tiles = json.dumps(result.tiles)
+        result.tile_classes = json.dumps(result.tile_classes)
         db_session.add(result)
         db_session.commit()
         return result
