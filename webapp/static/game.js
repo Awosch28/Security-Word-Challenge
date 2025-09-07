@@ -107,7 +107,7 @@ const app = Vue.createApp({
         window.addEventListener('keydown', this.keyDown);
 
         // load results
-        /*if (localStorage.getItem("game_results") === null) {
+        if (localStorage.getItem("game_results") === null) {
             this.game_results = {};
             this.game_results[this.config.language_code] = [];
             localStorage.setItem("game_results", JSON.stringify(this.game_results));
@@ -116,7 +116,7 @@ const app = Vue.createApp({
             if (!this.game_results[this.config.language_code]) {
                 this.game_results[this.config.language_code] = [];
             }
-        }*/
+        }
 
         fetch('/get-game-result', {
             method: 'GET',
