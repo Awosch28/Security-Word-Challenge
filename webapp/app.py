@@ -254,10 +254,9 @@ def game():
         }
     )
 
-# @app.route("/update-game-state")
 
 @app.route("/update-game-result", methods=['POST'])
-def process_result():
+def update_game_result():
     '''do necessary conversations, then update record'''
     data = request.get_json() # Get data sent from JavaScript
     logger.debug("update-game-result: %s", data)
@@ -270,18 +269,19 @@ def process_result():
     game_lost = data['game_lost']
     game_won = data['game_won']
 
-    return Result.update_result(user_id, num_attempts, tiles, tile_classes, game_over, game_lost, game_won)
+    result = Result.update_result(user_id, num_attempts, tiles, tile_classes, game_over, game_lost, game_won)
+
+    return result.to_dict()
 
 
 @app.route("/get-game-result", methods=['GET'])
-def get_result():
+def get_game_result():
     '''get today's result for player'''
     user_id = current_user.user_id
 
-    # result = Result.get_result(user_id)
-    
+    result = Result.get_result(user_id)
 
-    return Result.get_result(user_id)
+    return result.to_dict()
 
 
 if __name__ == '__main__':

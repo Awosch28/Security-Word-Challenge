@@ -159,6 +159,19 @@ class Result(Base):
     def __repr__(self):
         return f'<Result {self.result_id!r}>'
 
+    def to_dict(self):
+        return {
+            "result_id": self.result_id,
+            "user_id": self.user_id,
+            "game_date_idx": self.game_date_idx,
+            "num_attempts": self.num_attempts,
+            "tiles": self.tiles,
+            "tiles_classes": self.tiles_classes,
+            "game_over": self.game_over,
+            "game_lost": self.game_lost,
+            "game_won": self.game_won
+        }
+
     @classmethod
     def get_result(cls, user_id):
         """Get board for user. Always pulls todays result"""
@@ -179,8 +192,6 @@ class Result(Base):
 
         result.tiles = json.loads(result.tiles)
         result.tile_classes = json.loads(result.tile_classes)
-
-
 
         return result
 
