@@ -189,10 +189,10 @@ class Result(Base):
         """Update result with new board, result, etc"""
         result = cls.get_result(user_id)
 
-        logger.debug("get-result: %s", result.result_id)
-        logger.debug("get-result: %s", result.game_over)
-        logger.debug("get-result: %s", result.game_lost)
-        logger.debug("get-result: %s", result.game_won)
+        logger.debug("update-result: %s", result.result_id)
+        logger.debug("update-result: %s", result.game_over)
+        logger.debug("update-result: %s", result.game_lost)
+        logger.debug("update-result: %s", result.game_won)
 
         if result:
             result.num_attempts = num_attempts
