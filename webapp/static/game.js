@@ -107,7 +107,7 @@ const app = Vue.createApp({
         window.addEventListener('keydown', this.keyDown);
 
         // load results
-        if (localStorage.getItem("game_results") === null) {
+        /*if (localStorage.getItem("game_results") === null) {
             this.game_results = {};
             this.game_results[this.config.language_code] = [];
             localStorage.setItem("game_results", JSON.stringify(this.game_results));
@@ -116,7 +116,7 @@ const app = Vue.createApp({
             if (!this.game_results[this.config.language_code]) {
                 this.game_results[this.config.language_code] = [];
             }
-        }
+        }*/
 
         fetch('/get-game-result', {
             method: 'GET',
@@ -144,7 +144,8 @@ const app = Vue.createApp({
         }, 1000);*/
         // Attach the safe keyboard handler
         
-        this.loadFromLocalStorage();
+        //this.loadFromLocalStorage();
+        this.loadFromDatabase();
         this.showTiles();
 
         if (this.game_over) {
@@ -335,21 +336,6 @@ const app = Vue.createApp({
                 game_won: this.game_won
                 }
 
-                fetch('/update-game-result', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(dataToSend)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Response from Flask", data);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                })
-
             } else if ((key === "Backspace" || key === "Delete" || key === "⌫") && this.active_cell > 0) {
                 // set current active cell to empty and move backwards one
                 this.tiles[this.active_row][this.active_cell - 1] = "";
@@ -368,7 +354,9 @@ const app = Vue.createApp({
             
 
             this.showTiles();
-            this.saveToLocalStorage();
+            //this.saveToLocalStorage();
+            this.saveToDatabase();
+            this.save
         },
         showTiles() {
             // if left to right, then reverse the tiles visuals. else copy normally.
@@ -492,6 +480,22 @@ const app = Vue.createApp({
             };
             localStorage.setItem(page_name, JSON.stringify(data));
         },
+        saveToDatabase() {
+            fetch('/update-game-result', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataToSend)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response from Flask", data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            })
+        },
         loadFromLocalStorage() {
             // if local storage has data and the daily word is the same as the todays word, then load data
             var url = window.location.href;
@@ -510,6 +514,28 @@ const app = Vue.createApp({
                 this.attempts = data.attempts;
                 this.full_word_inputted = data.full_word_inputted;
             }
+        },
+        loadFromDatabase() {
+            fetch('/get-game-result', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response from Flask", data);
+                this.attempts = data.num_attempts;
+                this.tiles = data.tiles;
+                this.tile_classes = data.tile_classes;
+                this.game_over = data.game_over;
+                this.game_lost = data.game_lost;
+                this.game_won = data.game_won;
+                this.active_row = this.num_attempts;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            })
         },
         calculateStats(language_code) {
             // returns stats for the current language
