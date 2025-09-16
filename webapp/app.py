@@ -289,8 +289,7 @@ def get_user_stats():
     '''get the stats for a user'''
     user_id = current_user.user_id
     
-    results = Result.get_user_results(user_id).to_dict()
-    logger.debug("get-user-stats: %s", results)
+    logger.debug("get-user-stats results: %s", results)
 
     wins = 0
     losses = 0
@@ -300,7 +299,8 @@ def get_user_stats():
     longest_streak = 0
     
     for i in range(games):
-        played_game = results[i]
+        played_game = results[i].to_dict()
+        logger.debug("get-user-stats played game: %s", played_game)
         if played_game['game_won']:
             wins += 1
             current_streak += 1
