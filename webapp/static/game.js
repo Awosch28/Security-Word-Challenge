@@ -133,7 +133,12 @@ const app = Vue.createApp({
         })
 
         //calculate stats
-        this.stats = this.calculateStats();
+        this.stats = this.calculateStats().then(stats => {
+            document.getElementById("games").textContent = stats.n_games;
+            document.getElementById("win_percentage").textContent = stats.win_percentage + "?";
+            document.getElementById("current_streak").textContent = stats.current_streak;
+            document.getElementById("longest_streak").textContent = stats.longest_streak; 
+        });
 
         this.time_until_next_day = this.get_time_until_next_day();
     },
