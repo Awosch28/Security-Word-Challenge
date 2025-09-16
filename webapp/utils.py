@@ -1,4 +1,4 @@
-import os 
+import os
 import logging
 import datetime
 import json
@@ -22,8 +22,6 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
-
-random.seed(42)
 
 logger = logging.getLogger(__name__)
 
@@ -65,6 +63,7 @@ def load_words(characters):
         logger.debug("Word list after character check: %s", words)
 
         # we don't want words in order, so we shuffle
+        random.seed(42)
         random.shuffle(words)
         logger.debug("Word list after shuffle: %s", words)
 
