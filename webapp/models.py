@@ -229,3 +229,11 @@ class Result(Base):
         db_session.add(result)
         db_session.commit()
         return result
+
+    @classmethod
+    def get_user_results(cls, user_id):
+        """Get all of the results for a user"""
+        results =  db_session.query(cls).filter(cls.user_id == user_id)
+        logger.debug("get_user_results: %s", results)
+
+        return results

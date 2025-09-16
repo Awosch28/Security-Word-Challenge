@@ -284,5 +284,43 @@ def get_game_result():
     return result.to_dict()
 
 
+@app.route("/get-user-stats", methods=['GET'])
+def get_user_stats():
+    '''get the stats for a user'''
+    user_id = current_user.user_id
+    
+    results = Result.get_user_results(user_id)
+    wins = 0
+    losses = 0
+    total_attempts = 0
+    games = len(results)
+    current_streak = 0
+    longest_streak = 0
+    
+    for game in games:
+        if game['game_won']:
+            wins += 1
+            current_streak += 1
+            if current_streak > longest_streak:
+                longest_streak = current_streak
+        else:
+            losses += 1
+        total_attempts += game['attempts']
+
+    avg_attempts = total_attempts / games
+    win_percentage = ((wins / (wins + losses)) * 100) or 0
+
+    return {
+        "wins": wins,
+        "losses": losses,
+        "games": games,
+        "total_attempts": total_attempts,
+        "avg_attempts": avg_attempts,
+        "win_percentage": win_percentage,
+        "longest_streak": longest_streak,
+        "current_streak": current_streak 
+    }
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, ssl_context="adhoc", debug=True)

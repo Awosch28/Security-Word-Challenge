@@ -132,8 +132,8 @@ const app = Vue.createApp({
             console.error("Error:", error);
         })
 
-        //calculate states
-        // this.stats = this.calculateStats(this.config.language_code);
+        //calculate stats
+        this.stats = this.calculateStats();
 
         this.time_until_next_day = this.get_time_until_next_day();
     },
@@ -388,7 +388,7 @@ const app = Vue.createApp({
             localStorage.setItem("game_results", JSON.stringify(this.game_results));
 
             // refresh stats
-            // this.stats = this.calculateStats(this.config.language_code);
+            this.stats = this.calculateStats();
 
         },
         gameLost() {
@@ -405,7 +405,7 @@ const app = Vue.createApp({
             localStorage.setItem("game_results", JSON.stringify(this.game_results));
 
             // refresh stats
-            // this.stats = this.calculateStats(this.config.language_code);
+            this.stats = this.calculateStats();
 
         },
         showNotification(message, duration = 3) {
@@ -537,10 +537,40 @@ const app = Vue.createApp({
                 console.error("Error:", error);
             })
         },
-        /*calculateStats(language_code) {
+        calculateStats() {
             // returns stats for the current language
-            
-            if (!this.game_results[language_code]) {
+            var n_wins
+            var n_losses;
+            var n_attempts;
+            var n_games;
+            var current_streak;
+            var longest_streak;
+            var avg_attempts;
+            var win_percentage;
+
+
+            fetch('/get-user-stats', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response from Flask", data);
+                n_wins = data.wins;
+                n_losses = data.losses;
+                n_attempts = data.total_attempts;
+                n_games = data.games;
+                current_streak = data.current_streak;
+                longest_streak = data.longest_streak;
+                avg_attempts = data.avg_attempts;
+                win_percentage = data.win_percentage;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            })
+            /*if (!this.game_results[language_code]) {
                 return {
                     "n_wins": 0,
                     "n_losses": 0,
@@ -575,7 +605,7 @@ const app = Vue.createApp({
                 n_attempts += result.attempts;
             }
             var avg_attempts = n_attempts / results.length;
-            var win_percentage = ((n_wins / (n_wins + n_losses)) * 100 || 0);
+            var win_percentage = ((n_wins / (n_wins + n_losses)) * 100 || 0);*/
 
             return {
                 "n_wins": n_wins,
@@ -587,7 +617,7 @@ const app = Vue.createApp({
                 "longest_streak": longest_streak,
                 "current_streak": current_streak,
             };
-        },*/
+        },
     },
 });
 
