@@ -145,8 +145,9 @@ const app = Vue.createApp({
         // Attach the safe keyboard handler
         
         //this.loadFromLocalStorage();
-        this.loadFromDatabase();
-        this.showTiles();
+        this.loadFromDatabase().then(() => {
+            this.showTiles();
+        });
 
         if (this.game_over) {
             this.show_stats_modal = true;
