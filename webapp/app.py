@@ -309,7 +309,7 @@ def get_user_stats():
                 longest_streak = current_streak
         else:
             losses += 1
-        total_attempts += played_game['num_attempts']
+        total_attempts += int(played_game['num_attempts'])
 
     avg_attempts = total_attempts / games
     win_percentage = ((wins / (wins + losses)) * 100) or 0
