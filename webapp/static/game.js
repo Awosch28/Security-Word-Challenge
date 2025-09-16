@@ -481,6 +481,16 @@ const app = Vue.createApp({
             localStorage.setItem(page_name, JSON.stringify(data));
         },
         saveToDatabase() {
+
+            dataToSend = {
+                "attempts": this.num_attempts,
+                "tiles": this.tiles,
+                "tile_classes": this.tile_classes,
+                "game_over": this.game_over,
+                "game_lost": this.game_lost,
+                "game_won": this.game_won
+            }
+            
             fetch('/update-game-result', {
                 method: 'POST',
                 headers: {
