@@ -100,7 +100,7 @@ class Result(Base):
     game_date_idx = Column(Integer, nullable=False)
 
     # Using string for num_attempts because that is what the javascript used originally
-    num_attempts = Column(String(1), default="0", nullable=False)
+    num_attempts = Column(Integer, default=0, nullable=False)
 
     tiles = Column(String(200),
                     default='''[
@@ -133,7 +133,7 @@ class Result(Base):
     def __init__(self, user_id):
         self.user_id = user_id
         self.game_date_idx = get_todays_idx()
-        self.num_attempts = "0"
+        self.num_attempts = 0
         # stringified because that is how sqlite likes it
         self.tiles = [
                         ["", "", "", "", ""],
