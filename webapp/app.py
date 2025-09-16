@@ -290,6 +290,9 @@ def get_user_stats():
     user_id = current_user.user_id
     
     results = Result.get_user_results(user_id)
+    logger.debug("get-user-stats: %s", results)
+    
+    log
     wins = 0
     losses = 0
     total_attempts = 0
