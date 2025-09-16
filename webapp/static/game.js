@@ -483,7 +483,7 @@ const app = Vue.createApp({
         saveToDatabase() {
 
             dataToSend = {
-                "attempts": this.num_attempts,
+                "attempts": this.attempts,
                 "tiles": this.tiles,
                 "tile_classes": this.tile_classes,
                 "game_over": this.game_over,
