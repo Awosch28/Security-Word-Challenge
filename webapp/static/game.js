@@ -133,7 +133,7 @@ const app = Vue.createApp({
         })
 
         //calculate states
-        this.stats = this.calculateStats(this.config.language_code);
+        // this.stats = this.calculateStats(this.config.language_code);
 
         this.time_until_next_day = this.get_time_until_next_day();
     },
@@ -388,7 +388,7 @@ const app = Vue.createApp({
             localStorage.setItem("game_results", JSON.stringify(this.game_results));
 
             // refresh stats
-            this.stats = this.calculateStats(this.config.language_code);
+            // this.stats = this.calculateStats(this.config.language_code);
 
         },
         gameLost() {
@@ -405,7 +405,7 @@ const app = Vue.createApp({
             localStorage.setItem("game_results", JSON.stringify(this.game_results));
 
             // refresh stats
-            this.stats = this.calculateStats(this.config.language_code);
+            // this.stats = this.calculateStats(this.config.language_code);
 
         },
         showNotification(message, duration = 3) {
@@ -537,7 +537,7 @@ const app = Vue.createApp({
                 console.error("Error:", error);
             })
         },
-        calculateStats(language_code) {
+        /*calculateStats(language_code) {
             // returns stats for the current language
             
             if (!this.game_results[language_code]) {
@@ -587,7 +587,7 @@ const app = Vue.createApp({
                 "longest_streak": longest_streak,
                 "current_streak": current_streak,
             };
-        },
+        },*/
     },
 });
 
