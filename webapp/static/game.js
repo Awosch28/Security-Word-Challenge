@@ -516,6 +516,15 @@ const app = Vue.createApp({
             }
         },
         loadFromDatabase() {
+            var attempts;
+            var tiles;
+            var tile_classes;
+            var game_over;
+            var game_lost;
+            var game_won;
+            var active_row;
+
+            
             fetch('/get-game-result', {
                 method: 'GET',
                 headers: {
@@ -525,17 +534,25 @@ const app = Vue.createApp({
             .then(response => response.json())
             .then(data => {
                 console.log("Response from Flask", data);
-                this.attempts = data.num_attempts;
-                this.tiles = data.tiles;
-                this.tile_classes = data.tile_classes;
-                this.game_over = data.game_over;
-                this.game_lost = data.game_lost;
-                this.game_won = data.game_won;
-                this.active_row = this.num_attempts;
+                attempts = data.num_attempts;
+                tiles = data.tiles;
+                tile_classes = data.tile_classes;
+                game_over = data.game_over;
+                game_lost = data.game_lost;
+                game_won = data.game_won;
+                active_row = this.num_attempts;
             })
             .catch(error => {
                 console.error("Error:", error);
             })
+
+            this.attempts = attempts;
+            this.tiles = tiles;
+            this.tile_classes = tile_classes;
+            this.game_over = game_over;
+            this.game_lost = game_lost;
+            this.game_won = game_won;
+            this.active_row = active_row;
         },
         calculateStats() {
             // returns stats for the current language
