@@ -134,10 +134,9 @@ const app = Vue.createApp({
 
         //calculate stats
         this.stats = this.calculateStats().then(stats => {
-            document.getElementById("games").textContent = stats.n_games;
-            document.getElementById("win_percentage").textContent = stats.win_percentage + "?";
-            document.getElementById("current_streak").textContent = stats.current_streak;
-            document.getElementById("longest_streak").textContent = stats.longest_streak; 
+            if (stats) {
+                this.stats = stats;
+            }
         });
 
         this.time_until_next_day = this.get_time_until_next_day();
@@ -546,7 +545,7 @@ const app = Vue.createApp({
         calculateStats() {
             // returns stats for the current language
             
-            fetch('/get-user-stats', {
+            return fetch('/get-user-stats', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
