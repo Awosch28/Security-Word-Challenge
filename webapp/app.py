@@ -289,6 +289,7 @@ def get_user_stats():
     '''get the stats for a user'''
     user_id = current_user.user_id
     
+    results = Result.get_user_results(user_id)
     logger.debug("get-user-stats results: %s", results)
 
     wins = 0
