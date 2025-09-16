@@ -540,7 +540,7 @@ const app = Vue.createApp({
                 game_over = data.game_over;
                 game_lost = data.game_lost;
                 game_won = data.game_won;
-                active_row = this.num_attempts;
+                active_row = data.num_attempts;
             })
             .catch(error => {
                 console.error("Error:", error);
