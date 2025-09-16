@@ -320,27 +320,19 @@
 
                         <div class="flex flex-row justify-center border-t border-solid px-10 py-5">
                             <div class="flex flex-col text-center flex-grow">
-                                <p class="text-3xl text-center">
-                                    {{ stats.n_games !== undefined ? stats.n_games : "Loading..." }}
-                                </p>
+                                <p class="text-3xl text-center">{{ stats.n_games or "Loading..." }}</p>
                                 <p class="text-sm">Games</p>
                             </div>
                             <div class="flex flex-col text-center flex-grow">
-                                <p class="text-3xl">
-                                    {{ stats.win_percentage !== undefined ? stats.win_percentage : "Loading..." }}
-                                </p>
+                                <p class="text-3xl">{{ stats.win_percentage or "Loading..." }}</p>
                                 <p class="text-sm">Win %</p>
                             </div>
                             <div class="flex flex-col text-center flex-grow">
-                                <p class="text-3xl">
-                                    {{ stats.current_streak !== undefined ? stats.current_streak : "Loading..." }}
-                                </p>
+                                <p class="text-3xl">{{ stats.current_streak or "Loading..." }}</p>
                                 <p class="text-sm">Current Streak</p>
                             </div>
                             <div class="flex flex-col text-center flex-grow">
-                                <p class="text-3xl">
-                                    {{ stats.longest_streak !== undefined ? stats.longest_streak : "Loading..." }}
-                                </p>
+                                <p class="text-3xl">{{ stats.longest_streak or "Loading..." }}</p>
                                 <p class="text-sm">Best Streak</p>
                             </div>
                         </div>
