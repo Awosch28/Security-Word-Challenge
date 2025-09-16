@@ -374,9 +374,9 @@ const app = Vue.createApp({
             }, 400);
 
             // save a win to localStorage
-            const result = { "won": true, "attempts": this.attempts, "date": new Date() };
-            this.game_results[this.config.language_code].push(result);
-            localStorage.setItem("game_results", JSON.stringify(this.game_results));
+            // const result = { "won": true, "attempts": this.attempts, "date": new Date() };
+            // this.game_results[this.config.language_code].push(result);
+            // localStorage.setItem("game_results", JSON.stringify(this.game_results));
 
             // refresh stats
             this.stats = this.calculateStats();
@@ -550,17 +550,21 @@ const app = Vue.createApp({
             .then(response => response.json())
             .then(data => {
                 console.log("Response from Flask", data);
-                this.n_wins = data.wins;
-                this.n_losses = data.losses;
-                this.n_attempts = data.total_attempts;
-                this.n_games = data.games;
-                this.current_streak = data.current_streak;
-                this.longest_streak = data.longest_streak;
-                this.avg_attempts = data.avg_attempts;
-                this.win_percentage = data.win_percentage;
+
+                return {
+                    "n_wins": data.wins,
+                    "n_losses": data.losses,
+                    "n_games": data.games,
+                    "n_attempts": data.total_attempts,
+                    "avg_attempts": data.avg_attempts,
+                    "win_percentage": data.win_percentage,
+                    "longest_streak": data.longest_streak,
+                    "current_streak": data.current_streak,
+                };
             })
             .catch(error => {
                 console.error("Error:", error);
+                return null
             })
             /*if (!this.game_results[language_code]) {
                 return {
@@ -598,17 +602,6 @@ const app = Vue.createApp({
             }
             var avg_attempts = n_attempts / results.length;
             var win_percentage = ((n_wins / (n_wins + n_losses)) * 100 || 0);*/
-
-            return {
-                "n_wins": this.n_wins,
-                "n_losses": this.n_losses,
-                "n_games": this.n_games,
-                "n_attempts": this.n_attempts,
-                "avg_attempts": this.avg_attempts,
-                "win_percentage": this.win_percentage,
-                "longest_streak": this.longest_streak,
-                "current_streak": this.current_streak,
-            };
         },
     },
 });
