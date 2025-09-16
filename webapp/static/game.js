@@ -326,16 +326,6 @@ const app = Vue.createApp({
                     this.gameLost();
                 }
 
-                dataToSend = {
-                user_id: this.user_id,
-                attempts: this.attempts,
-                tiles: this.tiles,
-                tile_classes: this.tile_classes,
-                game_over: this.game_over,
-                game_lost: this.game_lost,
-                game_won: this.game_won
-                }
-
             } else if ((key === "Backspace" || key === "Delete" || key === "⌫") && this.active_cell > 0) {
                 // set current active cell to empty and move backwards one
                 this.tiles[this.active_row][this.active_cell - 1] = "";
@@ -452,7 +442,7 @@ const app = Vue.createApp({
                     emoji_board += "\n";
                 }
 
-                this.attempts = String(i+1);
+                this.attempts++;
                 // if game lost, show X
                 if (this.game_over && !this.game_won) {
                     this.attempts = "X";
