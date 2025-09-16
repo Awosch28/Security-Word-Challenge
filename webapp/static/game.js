@@ -133,7 +133,7 @@ const app = Vue.createApp({
         })
 
         //calculate stats
-        this.stats = this.calculateStats();
+        // this.stats = this.calculateStats();
 
         this.time_until_next_day = this.get_time_until_next_day();
     },
