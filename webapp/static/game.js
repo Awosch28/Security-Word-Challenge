@@ -314,6 +314,7 @@ const app = Vue.createApp({
                 if (word_is_valid) {
                     this.updateColors();
                     this.active_row++;
+                    this.attempts++;
                     this.active_cell = 0;
                     this.full_word_inputted = false;
                 } else {
@@ -442,7 +443,6 @@ const app = Vue.createApp({
                     emoji_board += "\n";
                 }
 
-                this.attempts++;
                 // if game lost, show X
                 if (this.game_over && !this.game_won) {
                     this.attempts = "X";
