@@ -233,7 +233,7 @@ class Result(Base):
     @classmethod
     def get_user_results(cls, user_id):
         """Get all of the results for a user"""
-        results =  db_session.query(cls).filter(cls.user_id == user_id)
+        results =  db_session.query(cls).filter(cls.user_id == user_id).all()
         logger.debug("get_user_results: %s", results)
 
         return results
