@@ -490,13 +490,13 @@ const app = Vue.createApp({
                 "game_lost": this.game_lost,
                 "game_won": this.game_won
             }
-            
+
             fetch('/update-game-result', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(dataToSend)
+                body: dataToSend
             })
             .then(response => response.json())
             .then(data => {
