@@ -299,7 +299,8 @@ def get_user_stats():
     current_streak = 0
     longest_streak = 0
     
-    for played_game in games:
+    for i in range(games):
+        played_game = results[i]
         if played_game['game_won']:
             wins += 1
             current_streak += 1
