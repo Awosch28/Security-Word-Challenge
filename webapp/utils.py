@@ -23,6 +23,8 @@ logging.basicConfig(
     ]
 )
 
+random.seed(42)
+
 logger = logging.getLogger(__name__)
 
 def load_characters():
