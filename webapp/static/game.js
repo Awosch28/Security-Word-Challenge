@@ -540,16 +540,7 @@ const app = Vue.createApp({
         },
         calculateStats() {
             // returns stats for the current language
-            var n_wins
-            var n_losses;
-            var n_attempts;
-            var n_games;
-            var current_streak;
-            var longest_streak;
-            var avg_attempts;
-            var win_percentage;
-
-
+            
             fetch('/get-user-stats', {
                 method: 'GET',
                 headers: {
@@ -559,14 +550,14 @@ const app = Vue.createApp({
             .then(response => response.json())
             .then(data => {
                 console.log("Response from Flask", data);
-                n_wins = data.wins;
-                n_losses = data.losses;
-                n_attempts = data.total_attempts;
-                n_games = data.games;
-                current_streak = data.current_streak;
-                longest_streak = data.longest_streak;
-                avg_attempts = data.avg_attempts;
-                win_percentage = data.win_percentage;
+                this.n_wins = data.wins;
+                this.n_losses = data.losses;
+                this.n_attempts = data.total_attempts;
+                this.n_games = data.games;
+                this.current_streak = data.current_streak;
+                this.longest_streak = data.longest_streak;
+                this.avg_attempts = data.avg_attempts;
+                this.win_percentage = data.win_percentage;
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -609,14 +600,14 @@ const app = Vue.createApp({
             var win_percentage = ((n_wins / (n_wins + n_losses)) * 100 || 0);*/
 
             return {
-                "n_wins": n_wins,
-                "n_losses": n_losses,
-                "n_games": n_games,
-                "n_attempts": n_attempts,
-                "avg_attempts": avg_attempts,
-                "win_percentage": win_percentage,
-                "longest_streak": longest_streak,
-                "current_streak": current_streak,
+                "n_wins": this.n_wins,
+                "n_losses": this.n_losses,
+                "n_games": this.n_games,
+                "n_attempts": this.n_attempts,
+                "avg_attempts": this.avg_attempts,
+                "win_percentage": this.win_percentage,
+                "longest_streak": this.longest_streak,
+                "current_streak": this.current_streak,
             };
         },
     },
