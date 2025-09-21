@@ -351,7 +351,7 @@ const app = Vue.createApp({
                 }
             }
         },
-        gameWon() {
+        async gameWon() {
             // set game_over to true with time delay
             this.game_over = true;
             this.game_won = true;
@@ -367,7 +367,8 @@ const app = Vue.createApp({
             // localStorage.setItem("game_results", JSON.stringify(this.game_results));
 
             // refresh stats
-            this.stats = this.calculateStats();
+            //this.stats = this.calculateStats();
+            const stats = await this.calculateStats()
 
         },
         gameLost() {
