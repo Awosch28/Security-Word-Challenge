@@ -367,9 +367,6 @@ const app = Vue.createApp({
             this.game_won = true;
             this.emoji_board = this.getEmojiBoard();
             this.showNotification(this.todays_word.toUpperCase(), 12);
-            setTimeout(() => {
-                this.show_stats_modal = true;
-            }, 400);
 
             // save a win to localStorage
             // const result = { "won": true, "attempts": this.attempts, "date": new Date() };
@@ -380,6 +377,10 @@ const app = Vue.createApp({
             //this.stats = this.calculateStats();
             const stats = await this.calculateStats();
             this.stats = stats
+
+            setTimeout(() => {
+                this.show_stats_modal = true;
+            }, 400);
 
         },
         gameLost() {
