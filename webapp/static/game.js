@@ -542,19 +542,18 @@ const app = Vue.createApp({
                 console.error("Error:", error);
             })
         },
-        calculateStats() {
+        async calculateStats() {
             // returns stats for the current language
             
-            return fetch('/get-user-stats', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
+            try {
+                const response = await fetch('/get-user-stats', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                const data = await response.json();
                 console.log("Response from Flask", data);
-
                 return {
                     "n_wins": data.wins,
                     "n_losses": data.losses,
@@ -565,11 +564,10 @@ const app = Vue.createApp({
                     "longest_streak": data.longest_streak,
                     "current_streak": data.current_streak,
                 };
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error("Error:", error);
-                return null
-            })
+                return null;
+            }
             /*if (!this.game_results[language_code]) {
                 return {
                     "n_wins": 0,
