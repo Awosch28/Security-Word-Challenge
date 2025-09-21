@@ -59,6 +59,16 @@ const app = Vue.createApp({
                 ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
                 ["border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300", "border-2 border-neutral-300"],
             ],
+            stats: {
+                n_wins: null,
+                n_losses: null,
+                n_games: null,
+                n_attempts: null,
+                avg_attempts: null,
+                win_percentage: null,
+                longest_streak: null,
+                current_streak: null,
+            },
 
             // constantly updating time until next day
             time_until_next_day() {
