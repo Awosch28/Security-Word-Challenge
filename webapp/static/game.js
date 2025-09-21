@@ -106,18 +106,6 @@ const app = Vue.createApp({
         // listen for any keypresses
         window.addEventListener('keydown', this.keyDown);
 
-        // load results
-        /*if (localStorage.getItem("game_results") === null) {
-            this.game_results = {};
-            this.game_results[this.config.language_code] = [];
-            localStorage.setItem("game_results", JSON.stringify(this.game_results));
-        } else {
-            this.game_results = JSON.parse(localStorage.getItem("game_results"));
-            if (!this.game_results[this.config.language_code]) {
-                this.game_results[this.config.language_code] = [];
-            }
-        }*/
-
         fetch('/get-game-result', {
             method: 'GET',
             headers: {
@@ -132,12 +120,8 @@ const app = Vue.createApp({
             console.error("Error:", error);
         })
 
-        //calculate stats
-        this.stats = this.calculateStats().then(stats => {
-            if (stats) {
-                this.stats = stats;
-            }
-        });
+        // fetch stats
+        this.loadInitialStats();
 
         this.time_until_next_day = this.get_time_until_next_day();
     },
@@ -542,6 +526,24 @@ const app = Vue.createApp({
                 console.error("Error:", error);
             })
         },
+        async loadInitialStats() {
+            const stats = await this.calculateStats();
+            if (stats) {
+                this.stats = stats;
+            } else {
+                // fallback values (safe defaults)
+                this.stats = {
+                    n_wins: 0,
+                    n_losses: 0,
+                    n_games: 0,
+                    n_attempts: 0,
+                    avg_attempts: 0,
+                    win_percentage: 0,
+                    longest_streak: 0,
+                    current_streak: 0,
+                };
+            }
+        },
         async calculateStats() {
             // returns stats for the current language
             
@@ -568,42 +570,6 @@ const app = Vue.createApp({
                 console.error("Error:", error);
                 return null;
             }
-            /*if (!this.game_results[language_code]) {
-                return {
-                    "n_wins": 0,
-                    "n_losses": 0,
-                    "n_games": 0,
-                    "n_attempts": 0,
-                    "avg_attempts": 0,
-                    "win_percentage": 0,
-                    "longest_streak": 0,
-                    "current_streak": 0,
-                };
-            }
-
-            var results = this.game_results[language_code];
-            var n_wins = 0;
-            var n_losses = 0;
-            var n_attempts = 0;
-            var n_games = results.length;
-            var current_streak = 0;
-            var longest_streak = 0;
-            for (let i = 0; i < results.length; i++) {
-                var result = results[i];
-                if (result.won) {
-                    n_wins++;
-                    current_streak++;
-                    if (current_streak > longest_streak) {
-                        longest_streak = current_streak;
-                    }
-                } else {
-                    n_losses++;
-                    current_streak = 0;
-                }
-                n_attempts += result.attempts;
-            }
-            var avg_attempts = n_attempts / results.length;
-            var win_percentage = ((n_wins / (n_wins + n_losses)) * 100 || 0);*/
         },
     },
 });
