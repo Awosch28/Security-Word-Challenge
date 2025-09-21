@@ -379,6 +379,7 @@ const app = Vue.createApp({
             // refresh stats
             //this.stats = this.calculateStats();
             const stats = await this.calculateStats();
+            this.stats = stats
 
         },
         gameLost() {
