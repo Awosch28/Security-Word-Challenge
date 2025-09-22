@@ -375,7 +375,7 @@ const app = Vue.createApp({
             // localStorage.setItem("game_results", JSON.stringify(this.game_results));
 
             // refresh stats
-            this.stats = this.calculateStats();
+            this.stats = await this.calculateStats();
             //this.loadStats();
 
             setTimeout(() => {
