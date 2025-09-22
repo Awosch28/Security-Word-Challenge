@@ -318,6 +318,8 @@ const app = Vue.createApp({
                 } else {
                     this.showNotification("Word is not valid");
                 }
+                
+                this.saveToDatabase();
 
                 if (word === this.todays_word) {
                     this.gameWon();
@@ -344,8 +346,6 @@ const app = Vue.createApp({
 
             this.showTiles();
             //this.saveToLocalStorage();
-            this.saveToDatabase();
-            this.save
         },
         showTiles() {
             // if left to right, then reverse the tiles visuals. else copy normally.
@@ -374,8 +374,8 @@ const app = Vue.createApp({
             // localStorage.setItem("game_results", JSON.stringify(this.game_results));
 
             // refresh stats
-            //this.stats = this.calculateStats();
-            this.loadStats();
+            this.stats = this.calculateStats();
+            //this.loadStats();
 
             setTimeout(() => {
                 this.show_stats_modal = true;
