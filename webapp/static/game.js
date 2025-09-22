@@ -131,7 +131,7 @@ const app = Vue.createApp({
         })
 
         // fetch stats
-        this.loadInitialStats();
+        this.loadStats();
 
         this.time_until_next_day = this.get_time_until_next_day();
     },
@@ -375,8 +375,7 @@ const app = Vue.createApp({
 
             // refresh stats
             //this.stats = this.calculateStats();
-            const stats = await this.calculateStats();
-            this.stats = stats
+            this.loadStats();
 
             setTimeout(() => {
                 this.show_stats_modal = true;
@@ -393,8 +392,8 @@ const app = Vue.createApp({
                 this.show_stats_modal = true;
             }, 400);
             // save a loss to local storage game results
-            this.game_results[this.config.language_code].push({ "won": false, "attempts": this.attempts, "date": new Date() });
-            localStorage.setItem("game_results", JSON.stringify(this.game_results));
+            // this.game_results[this.config.language_code].push({ "won": false, "attempts": this.attempts, "date": new Date() });
+            // localStorage.setItem("game_results", JSON.stringify(this.game_results));
 
             // refresh stats
             this.stats = this.calculateStats();
@@ -539,23 +538,9 @@ const app = Vue.createApp({
                 console.error("Error:", error);
             })
         },
-        async loadInitialStats() {
-            const stats = await this.calculateStats();
-            if (stats) {
-                this.stats = stats;
-            } else {
-                // fallback values (safe defaults)
-                this.stats = {
-                    n_wins: 0,
-                    n_losses: 0,
-                    n_games: 0,
-                    n_attempts: 0,
-                    avg_attempts: 0,
-                    win_percentage: 0,
-                    longest_streak: 0,
-                    current_streak: 0,
-                };
-            }
+        async loadStats() {
+            this.stats = await this.calculateStats();
+            console.log("Stats saved to this.stats", this.stats)
         },
         async calculateStats() {
             // returns stats for the current language
