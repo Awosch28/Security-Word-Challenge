@@ -367,7 +367,7 @@ const app = Vue.createApp({
             this.emoji_board = this.getEmojiBoard();
             this.showNotification(this.todays_word.toUpperCase(), 12);
 
-            this.saveToDatabase();
+            await this.saveToDatabase();
 
             // save a win to localStorage
             // const result = { "won": true, "attempts": this.attempts, "date": new Date() };
@@ -471,8 +471,8 @@ const app = Vue.createApp({
             };
             localStorage.setItem(page_name, JSON.stringify(data));
         },
-        saveToDatabase() {
-
+        async saveToDatabase() {
+            // save result to database
             dataToSend = {
                 "attempts": this.attempts,
                 "tiles": this.tiles,
