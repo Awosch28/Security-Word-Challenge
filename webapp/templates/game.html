@@ -88,6 +88,13 @@
                             </button>                        
                         </div>
                     </header>
+
+                    <!-- Word for MM/DD -->
+                    <div class="text-center my-2">
+                        <h2 class="uppercase font-bold text-2xl sm:text-3xl tracking-wider">
+                            Word for <span id="todays-date" class="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-1 rounded"></span>
+                        </h2>
+                    </div>
                     <!-- The game board -->
                     <main class="flex flex-auto justify-center items-center">
                         <div
@@ -362,6 +369,15 @@
 
         <!-- JS -->
         <script src="{{ url_for('static', filename='game.js') }}"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const today = new Date();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                document.getElementById("todays-date").textContent = `${mm}/${dd}`;
+            });
+        </script>
+
 
     </body>
 </html>
