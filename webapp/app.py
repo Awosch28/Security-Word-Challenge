@@ -314,6 +314,15 @@ def get_user_stats():
     avg_attempts = total_attempts / games
     win_percentage = ((wins / (wins + losses)) * 100) or 0
 
+    logger.debug("get-user-stat wins: %s", wins)
+    logger.debug("get-user-stat losses: %s", losses)
+    logger.debug("get-user-stat games: %s", games)
+    logger.debug("get-user-stat total_attempts: %s", total_attempts)
+    logger.debug("get-user-stat avg_attempts: %s", avg_attempts)
+    logger.debug("get-user-stat win_percentage: %s", win_percentage)
+    logger.debug("get-user-stat longest_streak: %s", longest_streak)
+    logger.debug("get-user-stat current_streak: %s", current_streak)
+
     return {
         "wins": wins,
         "losses": losses,

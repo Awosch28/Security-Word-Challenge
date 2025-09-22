@@ -318,8 +318,6 @@ const app = Vue.createApp({
                 } else {
                     this.showNotification("Word is not valid");
                 }
-                
-                this.saveToDatabase();
 
                 if (word === this.todays_word) {
                     this.gameWon();
@@ -343,6 +341,7 @@ const app = Vue.createApp({
                 }
             }
             
+            this.saveToDatabase();
 
             this.showTiles();
             //this.saveToLocalStorage();
@@ -367,6 +366,8 @@ const app = Vue.createApp({
             this.game_won = true;
             this.emoji_board = this.getEmojiBoard();
             this.showNotification(this.todays_word.toUpperCase(), 12);
+
+            this.saveToDatabase();
 
             // save a win to localStorage
             // const result = { "won": true, "attempts": this.attempts, "date": new Date() };
