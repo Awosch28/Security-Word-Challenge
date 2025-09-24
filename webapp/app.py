@@ -49,12 +49,6 @@ from database import (
 # set random seed 42 for reproducibility (important to maintain stable word lists)
 random.seed(42)
 
-# Configuration
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
-print(f"client id: {GOOGLE_CLIENT_ID}")
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", None)
-print(f"client_secret: {GOOGLE_CLIENT_SECRET}")
-
 # Flask app setup
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -63,7 +57,7 @@ app.config.from_pyfile('config.py')
 init_db()
 
 # Use secret key to cryptographically sign cookies and other items
-app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+app.secret_key = app.config['SECRET_KEY']
 
 # User session management setup
 # https://flask-login.readthedocs.io/en/latest
@@ -71,7 +65,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 # OAuth 2 client setup
-client = WebApplicationClient(GOOGLE_CLIENT_ID)
+client = WebApplicationClient(app.config['GOOGLE_CLIENT_ID'])
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -82,7 +76,7 @@ def load_user(user_id):
     except Exception as e:
         logger.debug("Error loading user: %s", e)
 
-ALLOWED_DOMAINS = ["gmail.com", "netskope.com"] # Only allow users from these domains
+ALLOWED_DOMAINS = ["gmail.com"] # Only allow users from these domains
 
 # Reverse Proxy Config
 app.wsgi_app = ProxyFix(
@@ -186,7 +180,7 @@ def callback():
         token_url,
         headers=headers,
         data=body,
-        auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
+        auth=(app.config['GOOGLE_CLIENT_ID'], app.config['GOOGLE_CLIENT_SECRET']),
         timeout=30
     )
 
