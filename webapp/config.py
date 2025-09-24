@@ -1,5 +1,9 @@
 '''Config File'''
 import os
+from dotenv import load_dotenv
+
+# Allow loading values from a .env file
+load_dotenv()
 
 # Google API Settings
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
