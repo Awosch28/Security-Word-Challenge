@@ -123,7 +123,7 @@ def index():
                 <head>
                     <title>Sign in with Google</title>
                     <style>
-                        body {{
+                        body {
                             font-family: Arial, sans-serif;
                             background: #f7f9fc;
                             display: flex;
@@ -131,37 +131,39 @@ def index():
                             justify-content: center;
                             height: 100vh;
                             margin: 0;
-                        }}
-                        .card {{
+                        }
+                        .card {
                             background: white;
                             padding: 2rem;
                             border-radius: 12px;
                             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
                             text-align: center;
                             max-width: 400px;
-                        }}
-                        .google-btn {{
+                        }
+                        .google-btn {
                             display: inline-flex;
                             align-items: center;
-                            padding: 0.6rem 1.2rem;
-                            background: white;
-                            border: 1px solid #dadce0;
-                            border-radius: 6px;
-                            font-size: 1rem;
-                            font-weight: 500;
+                            background-color: #fff;
                             color: #3c4043;
-                            cursor: pointer;
+                            border: 1px solid #dadce0;
+                            border-radius: 4px;
+                            font-size: 14px;
+                            font-weight: 500;
+                            height: 40px;
+                            padding: 0 12px;
                             text-decoration: none;
-                            transition: box-shadow 0.2s ease;
-                        }}
-                        .google-btn:hover {{
-                            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-                        }}
-                        .google-btn img {{
-                            width: 20px;
-                            height: 20px;
+                            white-space: nowrap;
+                            box-shadow: 0 1px 3px rgba(60,64,67,.3), 0 1px 1px rgba(60,64,67,.15);
+                            transition: box-shadow 0.2s ease-in-out;
+                        }
+                        .google-btn:hover {
+                            box-shadow: 0 2px 4px rgba(60,64,67,.3), 0 2px 4px rgba(60,64,67,.15);
+                        }
+                        .google-btn img {
+                            width: 18px;
+                            height: 18px;
                             margin-right: 8px;
-                        }}
+                        }
                     </style>
                 </head>
                 <body>
