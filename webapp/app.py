@@ -175,7 +175,7 @@ def index():
                             Sign in with Google
                         </a>
                         <p style="margin-top:1rem; font-size:0.9rem; color:#666;">
-                            You are visiting the official login page for <strong>YourApp</strong>.
+                            You are visiting the official login page for <strong>Wordle Challenge</strong>.
                         </p>
                     </div>
                 </body>
