@@ -10,4 +10,4 @@ SECRET_KEY = os.getenv("FLASK_SECRET_KEY", os.urandom(24))
 DEBUG = os.getenv("FLASK_DEBUG", "True")
 
 # Game Settings
-ALLOWED_DOMAINS = os.getenv("ALLOWED_DOMAINS", "").SPLIT(",")
+ALLOWED_DOMAINS = os.getenv("ALLOWED_DOMAINS", "").split(",")
