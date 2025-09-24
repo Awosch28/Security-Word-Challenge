@@ -181,20 +181,8 @@ class Result(Base):
         if not result:
             result = cls.create_result(user_id)
 
-        logger.debug("get-result tiles pre-loads: %s", result.tiles)
-        logger.debug("get-result tile_classes pre-loads: %s", result.tile_classes)
-        logger.debug("get-result result_id: %s", result.result_id)
-        logger.debug("get-result game_over: %s", result.game_over)
-        logger.debug("get-result game_lost: %s", result.game_lost)
-        logger.debug("get-result game_won: %s", result.game_won)
-        # logger.debug("get-result emoji_board: %s", result.emoji_board)
-        logger.debug("get-result attempts: %s", result.num_attempts)
-
         result.tiles = json.loads(result.tiles)
         result.tile_classes = json.loads(result.tile_classes)
-
-        logger.debug("get-result tiles post-loads: %s", result.tiles)
-        logger.debug("get-result tile_classes post-loads: %s", result.tile_classes)
 
         return result
 
@@ -202,11 +190,6 @@ class Result(Base):
     def update_result(cls, user_id, num_attempts, tiles, tile_classes, game_over, game_lost, game_won):
         """Update result with new board, result, etc"""
         result = cls.get_result(user_id)
-
-        logger.debug("update-result: %s", result.result_id)
-        logger.debug("update-result: %s", result.game_over)
-        logger.debug("update-result: %s", result.game_lost)
-        logger.debug("update-result: %s", result.game_won)
 
         if result:
             result.num_attempts = num_attempts
@@ -234,6 +217,5 @@ class Result(Base):
     def get_user_results(cls, user_id):
         """Get all of the results for a user"""
         results =  db_session.query(cls).filter(cls.user_id == user_id).all()
-        logger.debug("get_user_results: %s", results)
 
         return results

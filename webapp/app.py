@@ -97,7 +97,6 @@ def shutdown_session(exception=None):
 @app.before_request
 def before_request():
     '''Before request, redirect to https'''
-    logger.debug("BEFORE REQUEST")
     if (
         request.url.startswith("http://")
         and not "localhost" in request.url
