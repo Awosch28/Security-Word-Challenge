@@ -111,8 +111,6 @@ def before_request():
 @app.route("/")
 def index():
     '''Prompt Users to Sign In w/ Google.'''
-    logger.debug("/")
-    logger.debug("current user: %s", current_user)
     try:
         if current_user.is_authenticated:
             return (
@@ -120,7 +118,67 @@ def index():
                 "<div><p>Google Profile Picture:</p>"
                 '<a class="button" href="/logout">Logout</a>'
             )
-        return '<a class="button" href="/login">Google Login</a>'
+        return """
+            <html>
+                <head>
+                    <title>Sign in with Google</title>
+                    <style>
+                        body {{
+                            font-family: Arial, sans-serif;
+                            background: #f7f9fc;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            height: 100vh;
+                            margin: 0;
+                        }}
+                        .card {{
+                            background: white;
+                            padding: 2rem;
+                            border-radius: 12px;
+                            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                            text-align: center;
+                            max-width: 400px;
+                        }}
+                        .google-btn {{
+                            display: inline-flex;
+                            align-items: center;
+                            padding: 0.6rem 1.2rem;
+                            background: white;
+                            border: 1px solid #dadce0;
+                            border-radius: 6px;
+                            font-size: 1rem;
+                            font-weight: 500;
+                            color: #3c4043;
+                            cursor: pointer;
+                            text-decoration: none;
+                            transition: box-shadow 0.2s ease;
+                        }}
+                        .google-btn:hover {{
+                            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+                        }}
+                        .google-btn img {{
+                            width: 20px;
+                            height: 20px;
+                            margin-right: 8px;
+                        }}
+                    </style>
+                </head>
+                <body>
+                    <div class="card">
+                        <h1>Welcome</h1>
+                        <p>Please sign in with your Google account to continue.</p>
+                        <a class="google-btn" href="/login">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
+                            Sign in with Google
+                        </a>
+                        <p style="margin-top:1rem; font-size:0.9rem; color:#666;">
+                            You are visiting the official login page for <strong>YourApp</strong>.
+                        </p>
+                    </div>
+                </body>
+            </html>
+        """
     except Exception as e:
         logger.info("Error rendering index page: %s", e)
         return render_template("error.html", message=f"An unexpected error occurred: {e}"), 500
