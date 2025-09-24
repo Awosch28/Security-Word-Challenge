@@ -325,6 +325,8 @@ const app = Vue.createApp({
                     this.gameLost();
                 }
 
+                this.saveToDatabase();
+
             } else if ((key === "Backspace" || key === "Delete" || key === "⌫") && this.active_cell > 0) {
                 // set current active cell to empty and move backwards one
                 this.tiles[this.active_row][this.active_cell - 1] = "";
@@ -340,8 +342,6 @@ const app = Vue.createApp({
                     }
                 }
             }
-            
-            this.saveToDatabase();
 
             this.showTiles();
             //this.saveToLocalStorage();
