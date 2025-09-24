@@ -21,7 +21,8 @@ steps:
       from_secret: wordle_google_client_id_stg
     GOOGLE_CLIENT_SECRET:
       from_secret: wordle_google_client_secret_stg
-
+    ALLOWED_DOMAINS:
+      from_secret: allowed_domains
 node:
   group: wordle
 

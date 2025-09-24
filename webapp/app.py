@@ -76,7 +76,7 @@ def load_user(user_id):
     except Exception as e:
         logger.debug("Error loading user: %s", e)
 
-ALLOWED_DOMAINS = ["gmail.com"] # Only allow users from these domains
+ALLOWED_DOMAINS = app.config['ALLOWED_DOMAINS'] # Only allow users from these domains
 
 # Reverse Proxy Config
 app.wsgi_app = ProxyFix(
@@ -132,10 +132,7 @@ def login():
     '''Google Account Login.'''
     # Find out what URL to hit for Google Login
     google_provider_cfg = get_google_provider_cfg()
-    logger.debug("google provider cfg: %s", google_provider_cfg)
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
-    logger.debug("authorization_endpoint: %s", authorization_endpoint)
-    logger.debug("request.base_url: %s", request.base_url)
 
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
@@ -145,7 +142,6 @@ def login():
         scope=["openid", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"],
     )
 
-    logger.debug("request_uri: %s", request_uri)
     return redirect(request_uri)
 
 
@@ -154,14 +150,11 @@ def callback():
     '''Google Account Callback'''
     # Get authorization code Google sent back to you
     code = request.args.get("code")
-    logger.debug("Got the Google code: %s", code)
 
     # Find out what URL to hit to get tokens that allow you to ask for
     # things on behalf of a user
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]
-
-    logger.debug("token_endpoint: %s", token_endpoint)
 
     # Prepare and send a request to get tokens!
     token_url, headers, body = client.prepare_token_request(
@@ -171,11 +164,6 @@ def callback():
         code=code
     )
 
-    logger.debug("token_url: %s", token_url)
-    logger.debug("headers: %s", headers)
-    logger.debug("body: %s", body)
-
-
     token_response = requests.post(
         token_url,
         headers=headers,
@@ -183,8 +171,6 @@ def callback():
         auth=(app.config['GOOGLE_CLIENT_ID'], app.config['GOOGLE_CLIENT_SECRET']),
         timeout=30
     )
-
-    logger.debug("token_response: %s", token_response)
 
     # Parse the tokens
     client.parse_request_body_response(json.dumps(token_response.json()))
@@ -233,15 +219,9 @@ def logout():
 @login_required
 def game():
     '''Runs the game.'''
-    logger.debug("/game")
     language = Language()
-    logger.debug("daily word is: %s", language.daily_word)  # this should only be temporary
     # ... perform database operations ...
     result = Result.get_result(current_user.user_id)
-    logger.debug("/game: %s", result.result_id)
-    logger.debug("/game: %s", result.game_over)
-    logger.debug("/game: %s", result.game_lost)
-    logger.debug("/game: %s", result.game_won)
 
     return render_template("game.html", language=language, result=result or {
         "result.game_over": False
@@ -253,7 +233,6 @@ def game():
 def update_game_result():
     '''do necessary conversations, then update record'''
     data = request.get_json() # Get data sent from JavaScript
-    logger.debug("update-game-result: %s", data)
     # Process data in python
     user_id = current_user.user_id
     num_attempts = data['attempts']
@@ -284,7 +263,6 @@ def get_user_stats():
     user_id = current_user.user_id
     
     results = Result.get_user_results(user_id)
-    logger.debug("get-user-stats results: %s", results)
 
     wins = 0
     losses = 0
@@ -295,7 +273,6 @@ def get_user_stats():
     
     for i in range(games):
         played_game = results[i].to_dict()
-        logger.debug("get-user-stats played game: %s", played_game)
         if played_game['game_won']:
             wins += 1
             current_streak += 1
@@ -307,15 +284,6 @@ def get_user_stats():
 
     avg_attempts = total_attempts / games
     win_percentage = ((wins / (wins + losses)) * 100) or 0
-
-    logger.debug("get-user-stat wins: %s", wins)
-    logger.debug("get-user-stat losses: %s", losses)
-    logger.debug("get-user-stat games: %s", games)
-    logger.debug("get-user-stat total_attempts: %s", total_attempts)
-    logger.debug("get-user-stat avg_attempts: %s", avg_attempts)
-    logger.debug("get-user-stat win_percentage: %s", win_percentage)
-    logger.debug("get-user-stat longest_streak: %s", longest_streak)
-    logger.debug("get-user-stat current_streak: %s", current_streak)
 
     return {
         "wins": wins,
