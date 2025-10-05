@@ -53,4 +53,5 @@ Note: If using this in a competitive scene, make the app available to 'Internal'
 7. (Optional) Use the Verification Center if you want to expose the app to user outside of your organization, or if you want to have more than 
 
 ## Credits:
-- I have to think Hugo0 since I used his code as a starting point. You can find their version here: https://github.com/Hugo0/wordle. 
+- I have to thank Hugo0 since I used his code as a starting point. You can find their version here: https://github.com/Hugo0/wordle.
+- Also thank you to Spragouu for checking my AI slop and helping me keep my sanity
