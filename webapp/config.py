@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 # Allow loading values from a .env file
 load_dotenv()
 
-# Google API Settings
+# Google OAuth 2.0 Client Settings
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 
