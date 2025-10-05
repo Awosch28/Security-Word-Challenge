@@ -79,10 +79,10 @@ ALLOWED_DOMAINS = app.config['ALLOWED_DOMAINS'] # Only allow users from these do
 # Reverse Proxy Config
 app.wsgi_app = ProxyFix(
     app.wsgi_app,
-    x_for=app.config['WSGI_X_FOR'],
-    x_proto=app.config['WSGI_X_PROTO'],
-    x_host=app.config['WSGI_X_HOST'],
-    x_prefix=app.config['WSGI_X_PREFIX']
+    x_for=int(app.config['WSGI_X_FOR']),
+    x_proto=int(app.config['WSGI_X_PROTO']),
+    x_host=int(app.config['WSGI_X_HOST']),
+    x_prefix=int(app.config['WSGI_X_PREFIX'])
 )
 
 logging.basicConfig(level=logging.DEBUG)
@@ -115,11 +115,7 @@ def index():
     '''Prompt Users to Sign In w/ Google.'''
     try:
         if current_user.is_authenticated:
-            return (
-                f"<p>Hello, {current_user.name}! You're logged in! Email: {current_user.email}</p>"
-                "<div><p>Google Profile Picture:</p>"
-                '<a class="button" href="/logout">Logout</a>'
-            )
+            return redirect(url_for("game"))
         return """
             <html>
                 <head>
