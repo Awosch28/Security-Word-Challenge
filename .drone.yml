@@ -52,3 +52,8 @@ steps:
       from_secret: wordle_google_client_id_prod
     GOOGLE_CLIENT_SECRET:
       from_secret: wordle_google_client_secret_prod
+    WSGI_X_FOR: 1
+    WSGI_X_PROTO: 1
+    WSGI_X_HOST: 1
+    WSGI_X_PREFIX: 1
+    ALLOWED_DOMAINS: gmail.com
