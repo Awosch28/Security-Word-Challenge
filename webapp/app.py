@@ -80,10 +80,10 @@ ALLOWED_DOMAINS = app.config['ALLOWED_DOMAINS'] # Only allow users from these do
 
 # Reverse Proxy Config
 app.wsgi_app = ProxyFix(
-    app.wsgi_app, 
+    app.wsgi_app,
     x_for=app.config['WSGI_X_FOR'],
-    x_proto=app.config['WSGI_X_PROTO'], 
-    x_host=app.config['WSGI_X_HOST'], 
+    x_proto=app.config['WSGI_X_PROTO'],
+    x_host=app.config['WSGI_X_HOST'],
     x_prefix=app.config['WSGI_X_PREFIX']
 )
 
