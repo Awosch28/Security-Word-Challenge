@@ -2,7 +2,6 @@
 # Python Standard Libraries
 import json
 import logging
-import os
 import random
 
 # Third-party libraries
@@ -31,7 +30,6 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 # from db import get_db, close_connection, query_db
 from utils import (
     get_google_provider_cfg,
-    BASE_DIR,
     logger
 )
 
