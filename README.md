@@ -17,11 +17,13 @@ If you want to test out your changes, you can run the server locally.
 
 3. Add environment variables by creating a .env file or editing the .env.example file.
 
-4. Run web server locally
+4. Add the list of possible correct words as a words.txt file to the webapp/data folder. One word per line.
+
+5. Run web server locally
 ```gunicorn --daemon --bind 0.0.0.0:8000 --chdir webapp app:app```
 - You can replace port 8000 with whatever port you want.
 
-5. Navigate to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+6. Navigate to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 ## Setting Up Google OAuth Client
 For our use case it made the most sense to have users authenticate with Google. In order to do this, you will need an OAuth2 credentials.
