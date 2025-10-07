@@ -388,7 +388,7 @@ const app = Vue.createApp({
 
             this.game_over = true;
             this.game_won = false;
-            this.attempts = "X";
+            this.attempts = "6";
             setTimeout(() => {
                 this.show_stats_modal = true;
             }, 400);
